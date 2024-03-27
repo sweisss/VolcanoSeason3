@@ -1,6 +1,8 @@
 package com.example.volcanoseason3.ui.gallery
 
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -34,7 +36,14 @@ class MountainLinkAdapter(
 
         // Set the link of the mountain to the click listener
         listItemView.setOnClickListener {
-            Snackbar.make(listItemView, "Put the link here", Snackbar.LENGTH_LONG).show()
+            Snackbar.make(
+                listItemView,
+                "Navigating to ${currentMountain.name} forecast",
+                Snackbar.LENGTH_LONG
+            ).show()
+            val intent = Intent(Intent.ACTION_VIEW)
+            intent.setData(Uri.parse(currentMountain.link))
+            listItemView.context.startActivity(intent)
         }
 
         return listItemView
