@@ -1,4 +1,4 @@
-package com.example.volcanoseason3.ui.slideshow
+package com.example.volcanoseason3.ui.checklist
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,11 +7,11 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.example.volcanoseason3.databinding.FragmentSlideshowBinding
+import com.example.volcanoseason3.databinding.FragmentChecklistBinding
 
-class SlideshowFragment : Fragment() {
+class ChecklistFragment : Fragment() {
 
-    private var _binding: FragmentSlideshowBinding? = null
+    private var _binding: FragmentChecklistBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -23,12 +23,12 @@ class SlideshowFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         val slideshowViewModel =
-            ViewModelProvider(this).get(SlideshowViewModel::class.java)
+            ViewModelProvider(this).get(ChecklistViewModel::class.java)
 
-        _binding = FragmentSlideshowBinding.inflate(inflater, container, false)
+        _binding = FragmentChecklistBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textSlideshow
+        val textView: TextView = binding.textChecklist
         slideshowViewModel.text.observe(viewLifecycleOwner) {
             textView.text = it
         }

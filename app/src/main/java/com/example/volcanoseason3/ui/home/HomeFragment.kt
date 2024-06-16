@@ -4,9 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import com.example.volcanoseason3.R
+import com.example.volcanoseason3.data.gallery.MountainLink
 import com.example.volcanoseason3.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {
@@ -22,16 +22,19 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val homeViewModel =
-            ViewModelProvider(this).get(HomeViewModel::class.java)
-
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textHome
-        homeViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
+        val linkNames : Array<String> = resources.getStringArray(R.array.forecast_link_names)
+        val links : Array<String> = resources.getStringArray(R.array.forecast_links)
+
+        val mountainLinks = ArrayList(
+            linkNames.zip(links) { name, link -> MountainLink(name, link) }.toList()
+        )
+
+        val adapter = MountainLinkAdapter(requireContext(), mountainLinks)
+        binding.lvForecastList.adapter = adapter
+
         return root
     }
 

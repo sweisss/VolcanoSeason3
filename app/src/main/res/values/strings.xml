@@ -2,12 +2,45 @@
     <string name="app_name">VolcanoSeason3</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_title">Volcano Season</string>
+    <string name="nav_header_subtitle">Navigation Links</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
     <string name="menu_home">Home</string>
-    <string name="menu_gallery">Gallery</string>
-    <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_home_links">Home - Choose a Forecast</string>
+    <string name="menu_checklist">Equipment Checklist</string>
+
+    <string-array name="forecast_link_names">
+        <item>\uD83C\uDF0B Mt Adams"</item>
+        <item>\uD83C\uDF0B Mount Bachelor"</item>
+        <item>\uD83C\uDF0B Broken Top"</item>
+        <item>\uD83C\uDF0B Diamond Peak"</item>
+        <item>\uD83C\uDF0B Mt Hood"</item>
+        <item>\uD83C\uDF0B Lassen Peak"</item>
+        <item>\uD83C\uDF0B Mount McLoughlin"</item>
+        <item>\uD83C\uDF0B Mt Shasta"</item>
+        <item>\uD83C\uDF0B Mt St Helens"</item>
+        <item>\uD83C\uDF0B Mt Thielsen"</item>
+        <item>\uD83C\uDF0B Three Sisters"</item>
+        <item>\uD83C\uDF0B Mt Washington"</item>
+        <item>🌤️  Bend NOAA</item>
+    </string-array>
+
+    <string-array name="forecast_links">
+        <item>https://www.mountain-forecast.com/peaks/Mount-Adams/forecasts/3741</item>
+        <item>https://www.mountain-forecast.com/peaks/Mount-Bachelor/forecasts/2764</item>
+        <item>https://www.mountain-forecast.com/peaks/Broken-Top/forecasts/2797</item>
+        <item>https://www.mountain-forecast.com/peaks/Diamond-Peak-Oregon/forecasts/2665</item>
+        <item>https://www.mountain-forecast.com/peaks/Mount-Hood/forecasts/3426</item>
+        <item>https://www.mountain-forecast.com/peaks/Lassen-Peak/forecasts/3187</item>
+        <item>https://www.mountain-forecast.com/peaks/Mount-McLoughlin/forecasts/2894</item>
+        <item>https://www.mountain-forecast.com/peaks/Mount-Shasta/forecasts/4317</item>
+        <item>https://www.mountain-forecast.com/peaks/Mount-Saint-Helens/forecasts/2549</item>
+        <item>https://www.mountain-forecast.com/peaks/Mount-Thielsen/forecasts/2797</item>
+        <item>https://www.mountain-forecast.com/peaks/Three-Sisters/forecasts/3157</item>
+        <item>https://www.mountain-forecast.com/peaks/Mount-Washington-3/forecasts/2376</item>
+        <item>https://forecast.weather.gov/MapClick.php?lat=44.06&amp;lon=-121.3#.YsZ5b-zMLeo</item>
+    </string-array>
+
 </resources>

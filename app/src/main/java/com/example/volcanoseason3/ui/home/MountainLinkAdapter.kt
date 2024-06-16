@@ -1,4 +1,4 @@
-package com.example.volcanoseason3.ui.gallery
+package com.example.volcanoseason3.ui.home
 
 import android.content.Context
 import android.content.Intent
