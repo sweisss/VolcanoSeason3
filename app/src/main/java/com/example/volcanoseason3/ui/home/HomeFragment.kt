@@ -25,62 +25,11 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-//        Log.d("HomeFragment", "LOGGED")
-//        Log.d("HomeFragment", getString(R.string.mt_adams_link))
+        val linkNames : Array<String> = resources.getStringArray(R.array.forecast_link_names)
+        val links : Array<String> = resources.getStringArray(R.array.forecast_links)
 
-        val mountainLinks = arrayListOf(
-            MountainLink(
-                getString(R.string.link_name_adams),
-                getString(R.string.link_adams)
-            ),
-            MountainLink(
-                getString(R.string.link_name_bachelor),
-                getString(R.string.link_bachelor)
-            ),
-            MountainLink(
-                getString(R.string.link_name_broken_top),
-                getString(R.string.link_broken_top)
-            ),
-            MountainLink(
-                getString(R.string.link_name_diamond),
-                getString(R.string.link_diamond)
-            ),
-            MountainLink(
-                getString(R.string.link_name_hood),
-                getString(R.string.link_hood)
-            ),
-            MountainLink(
-                getString(R.string.link_name_lassen),
-                getString(R.string.link_lassen)
-            ),
-            MountainLink(
-                getString(R.string.link_name_mcloughlin),
-                getString(R.string.link_mcloughlin)
-            ),
-            MountainLink(
-                getString(R.string.link_name_shasta),
-                getString(R.string.link_shasta)
-            ),
-            MountainLink(
-                getString(R.string.link_name_helens),
-                getString(R.string.link_helens)
-            ),
-            MountainLink(
-                getString(R.string.link_name_thielsen),
-                getString(R.string.link_thielsen)
-            ),
-            MountainLink(
-                getString(R.string.link_name_sisters),
-                getString(R.string.link_sisters)
-            ),
-            MountainLink(
-                getString(R.string.link_name_washington),
-                getString(R.string.link_washington)
-            ),
-            MountainLink(
-                getString(R.string.link_name_bend_noaa),
-                getString(R.string.link_bend_noaa)
-            )
+        val mountainLinks = ArrayList(
+            linkNames.zip(links) { name, link -> MountainLink(name, link) }.toList()
         )
 
         val adapter = MountainLinkAdapter(requireContext(), mountainLinks)
