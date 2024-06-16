@@ -46,6 +46,15 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+        // Add a destination listener to control FAB visibility.
+        navController.addOnDestinationChangedListener { _, dest, _ ->
+            if (dest.id == R.id.nav_home) {
+                binding.appBarMain.fab.show()
+            } else {
+                binding.appBarMain.fab.hide()
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
