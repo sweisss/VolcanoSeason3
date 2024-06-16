@@ -9,7 +9,7 @@
 
     <string name="menu_home">Home</string>
     <string name="menu_home_links">Home - Choose a Forecast</string>
-    <string name="menu_checklist">Checklist</string>
+    <string name="menu_checklist">Equipment Checklist</string>
 
     <string-array name="forecast_link_names">
         <item>\uD83C\uDF0B Mt Adams"</item>
