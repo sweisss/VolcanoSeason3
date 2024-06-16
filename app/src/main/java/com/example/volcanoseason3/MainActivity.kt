@@ -1,6 +1,7 @@
 package com.example.volcanoseason3
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.navigation.NavigationView
@@ -12,6 +13,9 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import com.example.volcanoseason3.databinding.ActivityMainBinding
+import com.example.volcanoseason3.databinding.FragmentHomeBinding
+import com.example.volcanoseason3.ui.home.HomeViewModel
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MainActivity : AppCompatActivity() {
 
