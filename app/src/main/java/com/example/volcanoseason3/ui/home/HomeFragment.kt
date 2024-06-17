@@ -1,6 +1,7 @@
 package com.example.volcanoseason3.ui.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -36,6 +37,10 @@ class HomeFragment : Fragment() {
         binding.lvForecastList.adapter = adapter
 
         return root
+    }
+
+    fun addLink(name: String, link: String) {
+        Log.d("HomeFragment", "Adding link for mountain: $name, $link")
     }
 
     override fun onDestroyView() {
