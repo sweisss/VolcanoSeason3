@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.textclassifier.TextLinks
 import androidx.fragment.app.Fragment
 import com.example.volcanoseason3.R
 import com.example.volcanoseason3.data.gallery.MountainLink
@@ -18,6 +19,9 @@ class HomeFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
 
+    private lateinit var mountainLinks: ArrayList<MountainLink>
+    private lateinit var adapter: MountainLinkAdapter
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -29,11 +33,11 @@ class HomeFragment : Fragment() {
         val linkNames : Array<String> = resources.getStringArray(R.array.forecast_link_names)
         val links : Array<String> = resources.getStringArray(R.array.forecast_links)
 
-        val mountainLinks = ArrayList(
+        mountainLinks = ArrayList(
             linkNames.zip(links) { name, link -> MountainLink(name, link) }.toList()
         )
 
-        val adapter = MountainLinkAdapter(requireContext(), mountainLinks)
+        adapter = MountainLinkAdapter(requireContext(), mountainLinks)
         binding.lvForecastList.adapter = adapter
 
         return root
@@ -41,6 +45,9 @@ class HomeFragment : Fragment() {
 
     fun addLink(name: String, link: String) {
         Log.d("HomeFragment", "Adding link for mountain: $name, $link")
+        val newMountainLink = MountainLink(name, link)
+        mountainLinks.add(newMountainLink)
+        adapter.notifyDataSetChanged()
     }
 
     override fun onDestroyView() {

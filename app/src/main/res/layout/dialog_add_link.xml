@@ -18,4 +18,23 @@
         android:hint="@string/dialog_link"
         android:inputType="textUri"/>
 
+    <RadioGroup
+        android:id="@+id/radioGroupOptions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/radio_button_volcano"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/dialog_radio_volcano" />
+
+        <RadioButton
+            android:id="@+id/radio_button_region"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/dialog_radio_region" />
+    </RadioGroup>
+
 </LinearLayout>

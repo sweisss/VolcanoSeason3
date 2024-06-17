@@ -1,10 +1,13 @@
 package com.example.volcanoseason3
 
 import android.os.Bundle
+import android.provider.MediaStore.Audio.Radio
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.widget.EditText
+import android.widget.RadioButton
+import android.widget.RadioGroup
 import androidx.appcompat.app.AlertDialog
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.navigation.NavigationView
@@ -78,6 +81,9 @@ class MainActivity : AppCompatActivity() {
         val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_add_link, null)
         val editTextName = dialogView.findViewById<EditText>(R.id.edit_text_name)
         val editTextLink = dialogView.findViewById<EditText>(R.id.edit_text_link)
+        val radioGroupOptions = dialogView.findViewById<RadioGroup>(R.id.radioGroupOptions)
+        val radioButtonVolcano = dialogView.findViewById<RadioButton>(R.id.radio_button_volcano)
+        val radioButtonRegion = dialogView.findViewById<RadioButton>(R.id.radio_button_region)
 
         AlertDialog.Builder(this)
             .setTitle("Add a mountain")
@@ -85,7 +91,13 @@ class MainActivity : AppCompatActivity() {
             .setPositiveButton("Add") { dialog, _ ->
                 val name = editTextName.text.toString()
                 val link = editTextLink.text.toString()
-                addLinkToHomeFragment(name, link)
+                val selectedRadio = when (radioGroupOptions.checkedRadioButtonId) {
+                    R.id.radio_button_volcano -> getString(R.string.emoji_volcano)
+                    R.id.radio_button_region -> getString(R.string.emoji_region)
+                    else -> ""
+                }
+                val combinedName = "$selectedRadio $name"
+                addLinkToHomeFragment(combinedName, link)
                 dialog.dismiss()
             }
             .setNegativeButton("Cancel") { dialog, _ ->
