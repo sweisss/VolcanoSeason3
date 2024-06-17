@@ -46,7 +46,8 @@ class HomeFragment : Fragment() {
     fun addLink(name: String, link: String) {
         Log.d("HomeFragment", "Adding link for mountain: $name, $link")
         val newMountainLink = MountainLink(name, link)
-        mountainLinks.add(newMountainLink)
+        // Temporary organization adds the new link to the 2nd to last index
+        mountainLinks.add(mountainLinks.size - 1, newMountainLink)
         adapter.notifyDataSetChanged()
     }
 
