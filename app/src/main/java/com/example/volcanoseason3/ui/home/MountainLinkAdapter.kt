@@ -36,16 +36,35 @@ class MountainLinkAdapter(
 
         // Set the link of the mountain to the click listener
         listItemView.setOnClickListener {
-            Snackbar.make(
-                listItemView,
-                "Navigating to ${currentMountain.name} forecast",
-                Snackbar.LENGTH_LONG
-            ).show()
-            val intent = Intent(Intent.ACTION_VIEW)
-            intent.setData(Uri.parse(currentMountain.link))
-            listItemView.context.startActivity(intent)
+            if (isValidUrl(currentMountain.link)) {
+                Snackbar.make(
+                    listItemView,
+                    "Navigating to ${currentMountain.name} forecast",
+                    Snackbar.LENGTH_LONG
+                ).show()
+                try {
+                    val intent = Intent(Intent.ACTION_VIEW)
+                    intent.setData(Uri.parse(currentMountain.link))
+                    listItemView.context.startActivity(intent)
+                } catch (e: Exception) {
+                    Snackbar.make(
+                        listItemView,
+                        "No application can handle this request. Please install a web browser or check the URL.",
+                        Snackbar.LENGTH_LONG
+                    ).show()
+                }
+            } else {
+                Snackbar.make(
+                    listItemView,
+                    "Invalid URL. Cannot navigate to ${currentMountain.name} forecast.",
+                    Snackbar.LENGTH_LONG
+                ).show()
+            }
         }
-
         return listItemView
+    }
+
+    private fun isValidUrl(url: String): Boolean {
+        return android.util.Patterns.WEB_URL.matcher(url).matches()
     }
 }

@@ -97,7 +97,11 @@ class MainActivity : AppCompatActivity() {
                     else -> ""
                 }
                 val combinedName = "$selectedRadio $name"
-                addLinkToHomeFragment(combinedName, link)
+                if (isValidUrl(link)) {
+                    addLinkToHomeFragment(combinedName, link)
+                } else {
+                    Snackbar.make(binding.root, "Invalid URL. Please try again", Snackbar.LENGTH_LONG).show()
+                }
                 dialog.dismiss()
             }
             .setNegativeButton("Cancel") { dialog, _ ->
@@ -113,5 +117,9 @@ class MainActivity : AppCompatActivity() {
         val homeFragment =
             navHostFragment.childFragmentManager.fragments.find { it is HomeFragment } as? HomeFragment
         homeFragment?.addLink(name, link)
+    }
+
+    private fun isValidUrl(url: String): Boolean {
+        return android.util.Patterns.WEB_URL.matcher(url).matches()
     }
 }
