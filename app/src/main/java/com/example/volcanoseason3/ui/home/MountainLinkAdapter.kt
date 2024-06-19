@@ -22,7 +22,7 @@ class MountainLinkAdapter(
         // Check if an existing view is being reused, otherwise inflate the view
         if (listItemView == null) {
             listItemView = LayoutInflater.from(context).inflate(
-                R.layout.gallery_list_item,
+                R.layout.forecast_link_list_item,
                 parent,
                 false
             )
