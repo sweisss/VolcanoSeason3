@@ -22,7 +22,7 @@ class MountainLinkAdapter(
         // Check if an existing view is being reused, otherwise inflate the view
         if (listItemView == null) {
             listItemView = LayoutInflater.from(context).inflate(
-                R.layout.gallery_list_item,
+                R.layout.forecast_link_list_item,
                 parent,
                 false
             )
@@ -37,11 +37,6 @@ class MountainLinkAdapter(
         // Set the link of the mountain to the click listener
         listItemView.setOnClickListener {
             if (isValidUrl(currentMountain.link)) {
-                Snackbar.make(
-                    listItemView,
-                    "Navigating to ${currentMountain.name} forecast",
-                    Snackbar.LENGTH_LONG
-                ).show()
                 try {
                     val intent = Intent(Intent.ACTION_VIEW)
                     intent.setData(Uri.parse(currentMountain.link))
