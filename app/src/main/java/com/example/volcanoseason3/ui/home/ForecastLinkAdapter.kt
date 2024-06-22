@@ -30,11 +30,11 @@ class ForecastLinkAdapter(
 
         val currentMountain = mountains[position]
 
-        // Set the name of the mountain to the TextView
+        // Set the name of the forecast mountain or region to the TextView
         val nameTextView: TextView = listItemView!!.findViewById(R.id.tv_mountain_name)
         nameTextView.text = currentMountain.name
 
-        // Set the link of the mountain to the click listener
+        // Set the link of the forecast mountain or region to the click listener
         listItemView.setOnClickListener {
             if (isValidUrl(currentMountain.url)) {
                 try {
@@ -56,6 +56,16 @@ class ForecastLinkAdapter(
                 ).show()
             }
         }
+
+        // Set a long-press listener for each ForecastLink item
+        listItemView.setOnLongClickListener {
+            Snackbar.make(
+                listItemView,
+                "Remove ${currentMountain.name}",
+                Snackbar.LENGTH_LONG).show()
+            true
+        }
+
         return listItemView
     }
 
