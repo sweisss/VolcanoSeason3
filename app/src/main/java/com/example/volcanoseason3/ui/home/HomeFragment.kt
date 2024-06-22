@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.example.volcanoseason3.R
 import com.example.volcanoseason3.data.gallery.ForecastLink
 import com.example.volcanoseason3.databinding.FragmentHomeBinding
@@ -17,6 +18,8 @@ class HomeFragment : Fragment() {
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
+
+    private val viewModel: ForecastLinksViewModel by viewModels()
 
     private lateinit var forecastLinks: ArrayList<ForecastLink>
     private lateinit var adapter: ForecastLinkAdapter
@@ -36,7 +39,7 @@ class HomeFragment : Fragment() {
             linkNames.zip(links) { name, link -> ForecastLink(name, link) }.toList()
         )
 
-        adapter = ForecastLinkAdapter(requireContext(), forecastLinks)
+        adapter = ForecastLinkAdapter(requireContext(), forecastLinks, viewModel)
         binding.lvForecastList.adapter = adapter
 
         return root
@@ -47,6 +50,7 @@ class HomeFragment : Fragment() {
         val newForecastLink = ForecastLink(name, link)
         // Temporary organization adds the new link to the 2nd to last index
         forecastLinks.add(forecastLinks.size - 1, newForecastLink)
+        viewModel.addForecastLink(newForecastLink)
         adapter.notifyDataSetChanged()
     }
 

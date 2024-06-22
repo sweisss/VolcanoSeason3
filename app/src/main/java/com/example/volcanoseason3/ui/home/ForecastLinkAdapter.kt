@@ -8,13 +8,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
+import androidx.fragment.app.viewModels
 import com.example.volcanoseason3.R
 import com.example.volcanoseason3.data.gallery.ForecastLink
 import com.google.android.material.snackbar.Snackbar
 
 class ForecastLinkAdapter(
     context: Context,
-    private val links: List<ForecastLink>
+    private val links: List<ForecastLink>,
+    private val viewModel: ForecastLinksViewModel
 ) : ArrayAdapter<ForecastLink>(context, 0, links) {
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         var listItemView = convertView
@@ -63,6 +65,8 @@ class ForecastLinkAdapter(
                 listItemView,
                 "Remove ${currentLink.name}",
                 Snackbar.LENGTH_LONG).show()
+            viewModel.removeForecastLink(currentLink)
+//            viewModel.addForecastLink(currentLink)
             true
         }
 
