@@ -5,10 +5,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.textclassifier.TextLinks
 import androidx.fragment.app.Fragment
 import com.example.volcanoseason3.R
-import com.example.volcanoseason3.data.gallery.MountainLink
+import com.example.volcanoseason3.data.gallery.ForecastLink
 import com.example.volcanoseason3.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {
@@ -19,7 +18,7 @@ class HomeFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
 
-    private lateinit var mountainLinks: ArrayList<MountainLink>
+    private lateinit var forecastLinks: ArrayList<ForecastLink>
     private lateinit var adapter: MountainLinkAdapter
 
     override fun onCreateView(
@@ -33,21 +32,21 @@ class HomeFragment : Fragment() {
         val linkNames : Array<String> = resources.getStringArray(R.array.forecast_link_names)
         val links : Array<String> = resources.getStringArray(R.array.forecast_links)
 
-        mountainLinks = ArrayList(
-            linkNames.zip(links) { name, link -> MountainLink(name, link) }.toList()
+        forecastLinks = ArrayList(
+            linkNames.zip(links) { name, link -> ForecastLink(name, link) }.toList()
         )
 
-        adapter = MountainLinkAdapter(requireContext(), mountainLinks)
+        adapter = MountainLinkAdapter(requireContext(), forecastLinks)
         binding.lvForecastList.adapter = adapter
 
         return root
     }
 
     fun addLink(name: String, link: String) {
-        Log.d("HomeFragment", "Adding link for mountain: $name, $link")
-        val newMountainLink = MountainLink(name, link)
+        Log.d("HomeFragment", "Adding link for forecast: $name, $link")
+        val newForecastLink = ForecastLink(name, link)
         // Temporary organization adds the new link to the 2nd to last index
-        mountainLinks.add(mountainLinks.size - 1, newMountainLink)
+        forecastLinks.add(forecastLinks.size - 1, newForecastLink)
         adapter.notifyDataSetChanged()
     }
 

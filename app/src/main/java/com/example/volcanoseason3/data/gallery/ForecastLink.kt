@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-data class MountainLink(
+data class ForecastLink(
     @PrimaryKey val name: String,
-    val link: String
+    val url: String
 )

@@ -85,7 +85,7 @@ class MainActivity : AppCompatActivity() {
         val radioButtonRegion = dialogView.findViewById<RadioButton>(R.id.radio_button_region)
 
         AlertDialog.Builder(this)
-            .setTitle("Add a mountain")
+            .setTitle(getString(R.string.dialog_title))
             .setView(dialogView)
             .setPositiveButton("Add") { dialog, _ ->
                 val name = editTextName.text.toString()

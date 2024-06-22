@@ -7,8 +7,8 @@ import androidx.room.Insert
 @Dao
 interface ForecastLinkDao {
     @Insert
-    suspend fun insert(link: MountainLink)
+    suspend fun insert(link: ForecastLink)
 
     @Delete
-    suspend fun delete(link: MountainLink)
+    suspend fun delete(link: ForecastLink)
 }
