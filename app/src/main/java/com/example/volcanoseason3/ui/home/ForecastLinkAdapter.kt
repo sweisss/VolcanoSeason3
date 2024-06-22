@@ -12,7 +12,7 @@ import com.example.volcanoseason3.R
 import com.example.volcanoseason3.data.gallery.ForecastLink
 import com.google.android.material.snackbar.Snackbar
 
-class MountainLinkAdapter(
+class ForecastLinkAdapter(
     context: Context,
     private val mountains: List<ForecastLink>
 ) : ArrayAdapter<ForecastLink>(context, 0, mountains) {

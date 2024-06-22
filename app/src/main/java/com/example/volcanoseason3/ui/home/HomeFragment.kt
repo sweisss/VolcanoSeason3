@@ -19,7 +19,7 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var forecastLinks: ArrayList<ForecastLink>
-    private lateinit var adapter: MountainLinkAdapter
+    private lateinit var adapter: ForecastLinkAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,7 +36,7 @@ class HomeFragment : Fragment() {
             linkNames.zip(links) { name, link -> ForecastLink(name, link) }.toList()
         )
 
-        adapter = MountainLinkAdapter(requireContext(), forecastLinks)
+        adapter = ForecastLinkAdapter(requireContext(), forecastLinks)
         binding.lvForecastList.adapter = adapter
 
         return root
