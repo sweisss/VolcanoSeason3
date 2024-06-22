@@ -14,8 +14,8 @@ import com.google.android.material.snackbar.Snackbar
 
 class ForecastLinkAdapter(
     context: Context,
-    private val mountains: List<ForecastLink>
-) : ArrayAdapter<ForecastLink>(context, 0, mountains) {
+    private val links: List<ForecastLink>
+) : ArrayAdapter<ForecastLink>(context, 0, links) {
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         var listItemView = convertView
 
@@ -28,18 +28,18 @@ class ForecastLinkAdapter(
             )
         }
 
-        val currentMountain = mountains[position]
+        val currentLink = links[position]
 
         // Set the name of the forecast mountain or region to the TextView
         val nameTextView: TextView = listItemView!!.findViewById(R.id.tv_mountain_name)
-        nameTextView.text = currentMountain.name
+        nameTextView.text = currentLink.name
 
         // Set the link of the forecast mountain or region to the click listener
         listItemView.setOnClickListener {
-            if (isValidUrl(currentMountain.url)) {
+            if (isValidUrl(currentLink.url)) {
                 try {
                     val intent = Intent(Intent.ACTION_VIEW)
-                    intent.setData(Uri.parse(currentMountain.url))
+                    intent.setData(Uri.parse(currentLink.url))
                     listItemView.context.startActivity(intent)
                 } catch (e: Exception) {
                     Snackbar.make(
@@ -51,7 +51,7 @@ class ForecastLinkAdapter(
             } else {
                 Snackbar.make(
                     listItemView,
-                    "Invalid URL. Cannot navigate to ${currentMountain.name} forecast.",
+                    "Invalid URL. Cannot navigate to ${currentLink.name} forecast.",
                     Snackbar.LENGTH_LONG
                 ).show()
             }
@@ -61,7 +61,7 @@ class ForecastLinkAdapter(
         listItemView.setOnLongClickListener {
             Snackbar.make(
                 listItemView,
-                "Remove ${currentMountain.name}",
+                "Remove ${currentLink.name}",
                 Snackbar.LENGTH_LONG).show()
             true
         }
