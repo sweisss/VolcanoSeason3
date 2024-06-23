@@ -1,22 +1,16 @@
 package com.example.volcanoseason3.ui.home
 
-import android.content.Context
-import android.content.Intent
-import android.net.Uri
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import android.widget.TextView
-import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
 import com.example.volcanoseason3.R
 import com.example.volcanoseason3.data.gallery.ForecastLink
-import com.google.android.material.snackbar.Snackbar
 
 class ForecastLinkAdapter(
-    private val onClickPlaceHolder: (ForecastLink) -> Unit
+    private val onClick: (ForecastLink) -> Unit,
+    private val onLongClick: (ForecastLink) -> Boolean
 ) : RecyclerView.Adapter<ForecastLinkAdapter.ForecastLinkViewHolder>() {
     private var forecastLinks: MutableList<ForecastLink> = mutableListOf()
 
@@ -40,7 +34,7 @@ class ForecastLinkAdapter(
             LayoutInflater
                 .from(parent.context)
                 .inflate(R.layout.forecast_link_list_item, parent, false)
-        return ForecastLinkViewHolder(view, onClickPlaceHolder)
+        return ForecastLinkViewHolder(view, onClick, onLongClick)
     }
 
     override fun onBindViewHolder(
@@ -52,15 +46,20 @@ class ForecastLinkAdapter(
 
     class ForecastLinkViewHolder(
         view: View,
-        onClick: (ForecastLink) -> Unit
+        onClick: (ForecastLink) -> Unit,
+        onLongClick: (ForecastLink) -> Boolean
     ) : RecyclerView.ViewHolder(view) {
         private val forecastNameTV: TextView = view.findViewById(R.id.tv_forecast_name)
         private var currentForecast: ForecastLink? = null
 
         init {
             itemView.setOnClickListener {
-                Log.d("ForecastLinkAdapter", "IT: $it")
-                currentForecast?.let(onClick)
+                currentForecast?.let { onClick(it) }
+            }
+            itemView.setOnLongClickListener {
+                currentForecast?.let {
+                    onLongClick(it)
+                } ?: false // Return false if currentForecast is null
             }
         }
 

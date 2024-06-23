@@ -46,7 +46,7 @@ class HomeFragment : Fragment() {
         forecastLinks.layoutManager = LinearLayoutManager(requireContext())
         forecastLinks.setHasFixedSize(true)
 
-        adapter = ForecastLinkAdapter(::onForecastLinkClicked)
+        adapter = ForecastLinkAdapter(::onForecastLinkClicked, ::onForecastLinkLongPressed)
         forecastLinks.adapter = adapter
 
         populateDefaultForecastLinks()
@@ -56,29 +56,6 @@ class HomeFragment : Fragment() {
             adapter.updateForecastLinks(links.toMutableList())
             forecastLinks.scrollToPosition(0)
         }
-
-        val itemTouchCallback =
-            object : ItemTouchHelper.SimpleCallback(
-                0,
-                ItemTouchHelper.LEFT
-            ) {
-                override fun onMove(
-                    recyclerView: RecyclerView,
-                    viewHolder: RecyclerView.ViewHolder,
-                    target: RecyclerView.ViewHolder
-                ): Boolean {
-                    return false
-                }
-
-                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                    Log.d("HomeFragment", "Swiped $direction")
-                    val forecastLink = adapter.getItemAt(viewHolder.adapterPosition)
-
-                    viewModel.removeForecastLink(forecastLink)
-                }
-            }
-
-        ItemTouchHelper(itemTouchCallback).attachToRecyclerView(forecastLinks)
     }
 
     fun addLink(name: String, link: String) {
@@ -90,6 +67,12 @@ class HomeFragment : Fragment() {
 
     private fun onForecastLinkClicked(link: ForecastLink) {
         Log.d("HomeFragment", "Clicked on ForecastLink: $link")
+    }
+
+    private fun onForecastLinkLongPressed(link: ForecastLink): Boolean {
+        Log.d("HomeFragment", "Long pressed on ForecastLink: $link")
+        viewModel.removeForecastLink(link)
+        return true
     }
 
     private fun populateDefaultForecastLinks() {
