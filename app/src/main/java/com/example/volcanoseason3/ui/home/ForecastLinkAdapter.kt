@@ -3,74 +3,71 @@ package com.example.volcanoseason3.ui.home
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.RecyclerView
 import com.example.volcanoseason3.R
 import com.example.volcanoseason3.data.gallery.ForecastLink
 import com.google.android.material.snackbar.Snackbar
 
 class ForecastLinkAdapter(
-    context: Context,
-    private val links: List<ForecastLink>,
-    private val viewModel: ForecastLinksViewModel
-) : ArrayAdapter<ForecastLink>(context, 0, links) {
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-        var listItemView = convertView
+    private val onClickPlaceHolder: (ForecastLink) -> Unit
+) : RecyclerView.Adapter<ForecastLinkAdapter.ForecastLinkViewHolder>() {
+    private var forecastLinks: MutableList<ForecastLink> = mutableListOf()
 
-        // Check if an existing view is being reused, otherwise inflate the view
-        if (listItemView == null) {
-            listItemView = LayoutInflater.from(context).inflate(
-                R.layout.forecast_link_list_item,
-                parent,
-                false
-            )
-        }
+    fun getItemAt(position: Int): ForecastLink {
+        return forecastLinks[position]
+    }
 
-        val currentLink = links[position]
+    fun updateForecastLinks(updatedLinks: MutableList<ForecastLink>) {
+        notifyItemRangeRemoved(0, forecastLinks.size)
+        forecastLinks = updatedLinks
+        notifyItemRangeInserted(0, forecastLinks.size)
+    }
 
-        // Set the name of the forecast mountain or region to the TextView
-        val nameTextView: TextView = listItemView!!.findViewById(R.id.tv_mountain_name)
-        nameTextView.text = currentLink.name
+    override fun getItemCount(): Int = forecastLinks.size
 
-        // Set the link of the forecast mountain or region to the click listener
-        listItemView.setOnClickListener {
-            if (isValidUrl(currentLink.url)) {
-                try {
-                    val intent = Intent(Intent.ACTION_VIEW)
-                    intent.setData(Uri.parse(currentLink.url))
-                    listItemView.context.startActivity(intent)
-                } catch (e: Exception) {
-                    Snackbar.make(
-                        listItemView,
-                        "No application can handle this request. Please install a web browser or check the URL.",
-                        Snackbar.LENGTH_LONG
-                    ).show()
-                }
-            } else {
-                Snackbar.make(
-                    listItemView,
-                    "Invalid URL. Cannot navigate to ${currentLink.name} forecast.",
-                    Snackbar.LENGTH_LONG
-                ).show()
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): ForecastLinkViewHolder {
+        val view =
+            LayoutInflater
+                .from(parent.context)
+                .inflate(R.layout.forecast_link_list_item, parent, false)
+        return ForecastLinkViewHolder(view, onClickPlaceHolder)
+    }
+
+    override fun onBindViewHolder(
+        holder: ForecastLinkViewHolder,
+        position: Int
+    ) {
+        holder.bind(forecastLinks[position])
+    }
+
+    class ForecastLinkViewHolder(
+        view: View,
+        onClick: (ForecastLink) -> Unit
+    ) : RecyclerView.ViewHolder(view) {
+        private val forecastNameTV: TextView = view.findViewById(R.id.tv_forecast_name)
+        private var currentForecast: ForecastLink? = null
+
+        init {
+            itemView.setOnClickListener {
+                Log.d("ForecastLinkAdapter", "IT: $it")
+                currentForecast?.let(onClick)
             }
         }
 
-        // Set a long-press listener for each ForecastLink item
-        listItemView.setOnLongClickListener {
-            Snackbar.make(
-                listItemView,
-                "Remove ${currentLink.name}",
-                Snackbar.LENGTH_LONG).show()
-            viewModel.removeForecastLink(currentLink)
-//            viewModel.addForecastLink(currentLink)
-            true
+        fun bind(forecastlink: ForecastLink) {
+            currentForecast = forecastlink
+            forecastNameTV.text = forecastlink.name
         }
-
-        return listItemView
     }
 
     private fun isValidUrl(url: String): Boolean {

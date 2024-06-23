@@ -2,6 +2,7 @@ package com.example.volcanoseason3.ui.home
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.volcanoseason3.data.gallery.AppDatabase
 import com.example.volcanoseason3.data.gallery.ForecastLink
@@ -12,6 +13,8 @@ class ForecastLinksViewModel(application: Application) : AndroidViewModel(applic
     private val repository = ForecastLinksRepository(
         AppDatabase.getInstance(application).forecastLinkDao()
     )
+
+    val forecastLinks = repository.getAllForecastLinks().asLiveData()
 
     fun addForecastLink(link: ForecastLink) {
         viewModelScope.launch {
