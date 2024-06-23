@@ -1,5 +1,6 @@
 package com.example.volcanoseason3.ui.home
 
+import android.app.AlertDialog
 import android.database.sqlite.SQLiteConstraintException
 import android.os.Bundle
 import android.util.Log
@@ -71,8 +72,24 @@ class HomeFragment : Fragment() {
 
     private fun onForecastLinkLongPressed(link: ForecastLink): Boolean {
         Log.d("HomeFragment", "Long pressed on ForecastLink: $link")
-        viewModel.removeForecastLink(link)
+//        viewModel.removeForecastLink(link)
+        showConfirmationDialog(link)
         return true
+    }
+
+    private fun showConfirmationDialog(link: ForecastLink) {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle("Remove Forecast Link")
+        builder.setMessage("Are you sure you want to remove\n${link.name}?")
+
+        builder.setPositiveButton("OK") { dialog, _ ->
+            viewModel.removeForecastLink(link)
+            dialog.dismiss()
+        }
+        builder.setNegativeButton("Cancel") { dialog, _ ->
+            dialog.dismiss()
+        }
+        builder.show()
     }
 
     private fun populateDefaultForecastLinks() {
