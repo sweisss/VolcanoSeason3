@@ -1,7 +1,9 @@
 package com.example.volcanoseason3.ui.home
 
 import android.app.AlertDialog
+import android.content.Intent
 import android.database.sqlite.SQLiteConstraintException
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -68,11 +70,12 @@ class HomeFragment : Fragment() {
 
     private fun onForecastLinkClicked(link: ForecastLink) {
         Log.d("HomeFragment", "Clicked on ForecastLink: $link")
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(link.url))
+        startActivity(intent)
     }
 
     private fun onForecastLinkLongPressed(link: ForecastLink): Boolean {
         Log.d("HomeFragment", "Long pressed on ForecastLink: $link")
-//        viewModel.removeForecastLink(link)
         showConfirmationDialog(link)
         return true
     }
