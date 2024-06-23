@@ -5,8 +5,8 @@
     android:layout_height="match_parent"
     tools:context=".ui.home.HomeFragment">
 
-    <ListView
-        android:id="@+id/lv_forecast_list"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_forecast_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:divider="@android:color/transparent"

@@ -65,8 +65,9 @@
         <item>https://forecast.weather.gov/MapClick.php?lat=44.06&amp;lon=-121.3#.YsZ5b-zMLeo</item>
     </string-array>
 
-    <string name="dialog_name">Mountain Name</string>
-    <string name="dialog_link">Forecast Link</string>
+    <string name="dialog_title">Add a forecast</string>
+    <string name="dialog_name">Forecast Name</string>
+    <string name="dialog_link">Link URL</string>
     <string name="dialog_radio_volcano">&volcano; Volcano</string>
     <string name="dialog_radio_region">&sun_clouds; Region</string>
 
