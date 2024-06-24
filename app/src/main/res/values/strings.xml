@@ -15,8 +15,10 @@
     <string name="menu_home_links">Home - Choose a Forecast</string>
     <string name="menu_checklist">Equipment Checklist</string>
 
-    <string name="emoji_volcano">&volcano;</string>
-    <string name="emoji_region">&sun_clouds;</string>
+<!--    <string name="emoji_volcano">&volcano;</string>-->
+<!--    <string name="emoji_region">&sun_clouds;</string>-->
+    <string name="emoji_volcano">\uD83C\uDF0B</string>
+    <string name="emoji_region">\uD83C\uDF24</string>
 
 <!--    <string-array name="forecast_link_names">-->
 <!--        <item>\uD83C\uDF0B Mt Adams"</item>-->

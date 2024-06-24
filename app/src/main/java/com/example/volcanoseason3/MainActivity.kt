@@ -81,8 +81,8 @@ class MainActivity : AppCompatActivity() {
         val editTextName = dialogView.findViewById<EditText>(R.id.edit_text_name)
         val editTextLink = dialogView.findViewById<EditText>(R.id.edit_text_link)
         val radioGroupOptions = dialogView.findViewById<RadioGroup>(R.id.radioGroupOptions)
-        val radioButtonVolcano = dialogView.findViewById<RadioButton>(R.id.radio_button_volcano)
-        val radioButtonRegion = dialogView.findViewById<RadioButton>(R.id.radio_button_region)
+//        val radioButtonVolcano = dialogView.findViewById<RadioButton>(R.id.radio_button_volcano)
+//        val radioButtonRegion = dialogView.findViewById<RadioButton>(R.id.radio_button_region)
 
         AlertDialog.Builder(this)
             .setTitle(getString(R.string.dialog_title))

@@ -109,9 +109,6 @@ class HomeFragment : Fragment() {
                 }
             }.toList()
         )
-//        val defaultForecastLinks = ArrayList(
-//            linkNames.zip(links) { name, link -> ForecastLink(name, link) }.toList()
-//        )
         defaultForecastLinks.forEach { link ->
             viewModel.addForecastLink(link)
         }
