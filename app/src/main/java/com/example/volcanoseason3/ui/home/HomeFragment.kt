@@ -100,9 +100,16 @@ class HomeFragment : Fragment() {
     private fun populateDefaultForecastLinks() {
         val linkNames : Array<String> = resources.getStringArray(R.array.forecast_link_names)
         val links : Array<String> = resources.getStringArray(R.array.forecast_links)
-        val emoji : String = getString(R.string.emoji_volcano)
+        val volcanoEmoji : String = getString(R.string.emoji_volcano)
+        val regionEmoji: String = getString(R.string.emoji_region)
         val defaultForecastLinks = ArrayList(
-            linkNames.zip(links) { name, link -> ForecastLink(name, link, emoji) }.toList()
+            linkNames.zip(links) { name, link ->
+                if (name.contains("NOAA")) {
+                    ForecastLink(name, link, regionEmoji)
+                } else {
+                    ForecastLink(name, link, volcanoEmoji)
+                }
+            }.toList()
         )
 //        val defaultForecastLinks = ArrayList(
 //            linkNames.zip(links) { name, link -> ForecastLink(name, link) }.toList()
