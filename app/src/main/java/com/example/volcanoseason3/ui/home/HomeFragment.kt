@@ -61,11 +61,9 @@ class HomeFragment : Fragment() {
         }
     }
 
-    fun addLink(name: String, link: String) {
+    fun addLink(name: String, link: String, emoji: String) {
         Log.d("HomeFragment", "Adding link for forecast: $name, $link")
-        val emoji : String = getString(R.string.emoji_volcano)
         val newForecastLink = ForecastLink(name, link, emoji)
-//        val newForecastLink = ForecastLink(name, link)
         viewModel.addForecastLink(newForecastLink)
         adapter.notifyDataSetChanged()
     }

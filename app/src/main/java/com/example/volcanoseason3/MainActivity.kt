@@ -95,9 +95,8 @@ class MainActivity : AppCompatActivity() {
                     R.id.radio_button_region -> getString(R.string.emoji_region)
                     else -> ""
                 }
-                val combinedName = "$selectedRadio $name"
                 if (isValidUrl(link)) {
-                    addLinkToHomeFragment(combinedName, link)
+                    addLinkToHomeFragment(name, link, selectedRadio)
                 } else {
                     Snackbar.make(binding.root, "Invalid URL. Please try again", Snackbar.LENGTH_LONG).show()
                 }
@@ -110,12 +109,12 @@ class MainActivity : AppCompatActivity() {
             .show()
     }
 
-    private fun addLinkToHomeFragment(name: String, link: String) {
+    private fun addLinkToHomeFragment(name: String, link: String, emoji: String) {
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main) as NavHostFragment
         val homeFragment =
             navHostFragment.childFragmentManager.fragments.find { it is HomeFragment } as? HomeFragment
-        homeFragment?.addLink(name, link)
+        homeFragment?.addLink(name, link, emoji)
     }
 
     private fun isValidUrl(url: String): Boolean {
