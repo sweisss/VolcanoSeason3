@@ -81,8 +81,6 @@ class MainActivity : AppCompatActivity() {
         val editTextName = dialogView.findViewById<EditText>(R.id.edit_text_name)
         val editTextLink = dialogView.findViewById<EditText>(R.id.edit_text_link)
         val radioGroupOptions = dialogView.findViewById<RadioGroup>(R.id.radioGroupOptions)
-        val radioButtonVolcano = dialogView.findViewById<RadioButton>(R.id.radio_button_volcano)
-        val radioButtonRegion = dialogView.findViewById<RadioButton>(R.id.radio_button_region)
 
         AlertDialog.Builder(this)
             .setTitle(getString(R.string.dialog_title))
@@ -95,9 +93,8 @@ class MainActivity : AppCompatActivity() {
                     R.id.radio_button_region -> getString(R.string.emoji_region)
                     else -> ""
                 }
-                val combinedName = "$selectedRadio $name"
                 if (isValidUrl(link)) {
-                    addLinkToHomeFragment(combinedName, link)
+                    addLinkToHomeFragment(name, link, selectedRadio)
                 } else {
                     Snackbar.make(binding.root, "Invalid URL. Please try again", Snackbar.LENGTH_LONG).show()
                 }
@@ -110,12 +107,12 @@ class MainActivity : AppCompatActivity() {
             .show()
     }
 
-    private fun addLinkToHomeFragment(name: String, link: String) {
+    private fun addLinkToHomeFragment(name: String, link: String, emoji: String) {
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main) as NavHostFragment
         val homeFragment =
             navHostFragment.childFragmentManager.fragments.find { it is HomeFragment } as? HomeFragment
-        homeFragment?.addLink(name, link)
+        homeFragment?.addLink(name, link, emoji)
     }
 
     private fun isValidUrl(url: String): Boolean {

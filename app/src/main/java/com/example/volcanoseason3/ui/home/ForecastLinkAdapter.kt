@@ -64,8 +64,9 @@ class ForecastLinkAdapter(
         }
 
         fun bind(forecastlink: ForecastLink) {
+            val concatenatedName = "${forecastlink.emoji}  ${forecastlink.name}"
             currentForecast = forecastlink
-            forecastNameTV.text = forecastlink.name
+            forecastNameTV.text = concatenatedName
         }
     }
 

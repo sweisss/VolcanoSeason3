@@ -15,39 +15,25 @@
     <string name="menu_home_links">Home - Choose a Forecast</string>
     <string name="menu_checklist">Equipment Checklist</string>
 
-    <string name="emoji_volcano">&volcano;</string>
-    <string name="emoji_region">&sun_clouds;</string>
+    <string name="emoji_volcano">\uD83C\uDF0B</string>
+    <string name="emoji_region">\uD83C\uDF24</string>
 
-<!--    <string-array name="forecast_link_names">-->
-<!--        <item>\uD83C\uDF0B Mt Adams"</item>-->
-<!--        <item>\uD83C\uDF0B Mount Bachelor"</item>-->
-<!--        <item>\uD83C\uDF0B Broken Top"</item>-->
-<!--        <item>\uD83C\uDF0B Diamond Peak"</item>-->
-<!--        <item>\uD83C\uDF0B Mt Hood"</item>-->
-<!--        <item>\uD83C\uDF0B Lassen Peak"</item>-->
-<!--        <item>\uD83C\uDF0B Mount McLoughlin"</item>-->
-<!--        <item>\uD83C\uDF0B Mt Shasta"</item>-->
-<!--        <item>\uD83C\uDF0B Mt St Helens"</item>-->
-<!--        <item>\uD83C\uDF0B Mt Thielsen"</item>-->
-<!--        <item>\uD83C\uDF0B Three Sisters"</item>-->
-<!--        <item>\uD83C\uDF0B Mt Washington"</item>-->
-<!--        <item>🌤️  Bend NOAA</item>-->
-<!--    </string-array>-->
     <string-array name="forecast_link_names">
-        <item>&volcano; Mt Adams"</item>
-        <item>&volcano; Mount Bachelor"</item>
-        <item>&volcano; Broken Top"</item>
-        <item>&volcano; Diamond Peak"</item>
-        <item>&volcano; Mt Hood"</item>
-        <item>&volcano; Lassen Peak"</item>
-        <item>&volcano; Mount McLoughlin"</item>
-        <item>&volcano; Mt Shasta"</item>
-        <item>&volcano; Mt St Helens"</item>
-        <item>&volcano; Mt Thielsen"</item>
-        <item>&volcano; Three Sisters"</item>
-        <item>&volcano; Mt Washington"</item>
-        <item>&sun_clouds; Bend NOAA</item>
+        <item>Mt Adams"</item>
+        <item>Mount Bachelor"</item>
+        <item>Broken Top"</item>
+        <item>Diamond Peak"</item>
+        <item>Mt Hood"</item>
+        <item>Lassen Peak"</item>
+        <item>Mount McLoughlin"</item>
+        <item>Mt Shasta"</item>
+        <item>Mt St Helens"</item>
+        <item>Mt Thielsen"</item>
+        <item>Three Sisters"</item>
+        <item>Mt Washington"</item>
+        <item>Bend NOAA</item>
     </string-array>
+
 
     <string-array name="forecast_links">
         <item>https://www.mountain-forecast.com/peaks/Mount-Adams/forecasts/3741</item>
