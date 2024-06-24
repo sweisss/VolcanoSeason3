@@ -1,13 +1,21 @@
 package com.example.volcanoseason3.data.gallery
 
 import android.content.Context
+import androidx.room.AutoMigration
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
 const val DATABASE_NAME = "forecast-links-db"
 
-@Database(entities = [ForecastLink::class], version = 1)
+@Database(
+    entities = [ForecastLink::class],
+//    version = 1
+    version = 2,
+    autoMigrations = [
+        AutoMigration(from = 1, to = 2)
+    ]
+)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun forecastLinkDao() : ForecastLinkDao
 
