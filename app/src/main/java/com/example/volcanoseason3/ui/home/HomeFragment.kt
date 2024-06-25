@@ -7,6 +7,8 @@ import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
@@ -32,6 +34,12 @@ class HomeFragment : Fragment() {
     private lateinit var forecastLinks: RecyclerView
     private lateinit var adapter: ForecastLinkAdapter
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        // Call to activate the actions menu
+        setHasOptionsMenu(true)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -39,6 +47,14 @@ class HomeFragment : Fragment() {
     ): View? {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        Log.d("HomeFragment", "Called onCreateOptionsMenu; $menu")
+        inflater.inflate(R.menu.main, menu)
+        menu.findItem(R.id.action_settings)?.isVisible = true
+        menu.findItem(R.id.action_settings2)?.isVisible = true
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
