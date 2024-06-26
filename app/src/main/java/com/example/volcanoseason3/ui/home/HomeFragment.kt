@@ -1,6 +1,7 @@
 package com.example.volcanoseason3.ui.home
 
 import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -11,8 +12,6 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
-import android.widget.RadioGroup
 import android.widget.Spinner
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -21,7 +20,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.volcanoseason3.R
 import com.example.volcanoseason3.data.gallery.ForecastLink
 import com.example.volcanoseason3.databinding.FragmentHomeBinding
-import com.google.android.material.snackbar.Snackbar
 
 class HomeFragment : Fragment() {
 
@@ -145,21 +143,41 @@ class HomeFragment : Fragment() {
     private fun showOrganizeSettingsDialog() {
         val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_organize_links, null)
         val spinnerSortBy = dialogView.findViewById<Spinner>(R.id.spinner_sort_by)
-//        val spinnerOrder = dialogView.findViewById<Spinner>(R.id.spinner_order)
         val spinnerSeparation = dialogView.findViewById<Spinner>(R.id.spinner_separation)
+        val spinnerCustomOptions = dialogView.findViewById<Spinner>(R.id.spinner_custom)
+
+        val sharedPreferences = requireContext().getSharedPreferences("HomeFragmentSettings", Context.MODE_PRIVATE)
+
+        // Load previously saved settings
+        val savedSortBy = sharedPreferences.getString("sortBy", getString(R.string.pref_sort_val_alphabet))
+        val savedSeparation = sharedPreferences.getString("separation", getString(R.string.prefs_separate_val_volcano))
+        val savedCustom = sharedPreferences.getString("custom", getString(R.string.pref_custom_val_1))
+
+        // Map saved values to entries and set them as selected values in spinners
+        setSpinnerSelection(spinnerSortBy, savedSortBy, R.array.options_sort_by_entries, R.array.options_sort_by_values)
+        setSpinnerSelection(spinnerSeparation, savedSeparation, R.array.options_separation_entries, R.array.options_separation_values)
+        setSpinnerSelection(spinnerCustomOptions, savedCustom, R.array.options_custom_entries, R.array.options_custom_values)
 
         androidx.appcompat.app.AlertDialog.Builder(requireContext())
             .setTitle("Organize Forecast Links")
             .setView(dialogView)
             .setPositiveButton("OK") { dialog, _ ->
-                val sortBy = spinnerSortBy.selectedItem.toString()
-//                val order = spinnerOrder.selectedItem.toString()
-                val separation = spinnerSeparation.selectedItem.toString()
+                val sortBy = getSpinnerValue(spinnerSortBy, R.array.options_sort_by_values)
+                val separation = getSpinnerValue(spinnerSeparation, R.array.options_separation_values)
+                val custom = getSpinnerValue(spinnerCustomOptions, R.array.options_custom_values)
+
+                // Save the selected settings to SharedPreferences
+                with(sharedPreferences.edit()) {
+                    putString("sortBy", sortBy)
+                    putString("separation", separation)
+                    putString("custom", custom)
+                    apply()
+                }
 
                 // Handle the selected options here
                 when (sortBy) {
-                    "Alphabetically" -> organizeLinksAlphabetically(separation)
-                    "Longitude (North-South)" -> organizeLinksByLongitude(separation)
+                    getString(R.string.pref_sort_val_alphabet) -> organizeLinksAlphabetically(separation)
+                    getString(R.string.pref_sort_val_longitude) -> organizeLinksByLongitude(separation)
                     // Add more conditions if needed
                 }
 
@@ -170,6 +188,20 @@ class HomeFragment : Fragment() {
             }
             .create()
             .show()
+    }
+
+    private fun setSpinnerSelection(spinner: Spinner, value: String?, entriesArrayResId: Int, valuesArrayResId: Int) {
+        val entries = resources.getStringArray(entriesArrayResId)
+        val values = resources.getStringArray(valuesArrayResId)
+        val index = values.indexOf(value)
+        if (index != -1) {
+            spinner.setSelection(index)
+        }
+    }
+
+    private fun getSpinnerValue(spinner: Spinner, valuesArrayResId: Int): String {
+        val values = resources.getStringArray(valuesArrayResId)
+        return values[spinner.selectedItemPosition]
     }
 
     private fun organizeLinksAlphabetically(separation: String) {

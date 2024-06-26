@@ -15,7 +15,7 @@
         android:id="@+id/spinner_sort_by"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:entries="@array/options_sort_by"
+        android:entries="@array/options_sort_by_entries"
         android:layout_marginBottom="16dp" />
 
     <TextView
@@ -28,7 +28,7 @@
         android:id="@+id/spinner_separation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:entries="@array/options_separation"
+        android:entries="@array/options_separation_entries"
         android:layout_marginBottom="16dp" />
 
     <TextView
@@ -41,7 +41,7 @@
         android:id="@+id/spinner_custom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:entries="@array/options_custom"
+        android:entries="@array/options_custom_entries"
         android:layout_marginBottom="16dp" />
 
 </LinearLayout>
