@@ -2,13 +2,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/action_settings_display_size"
         android:orderInCategory="100"
-        android:title="@string/action_settings"
+        android:title="@string/action_settings_display_size"
         app:showAsAction="never" />
     <item
-        android:id="@+id/action_settings2"
+        android:id="@+id/action_settings_organize_list"
         android:orderInCategory="100"
-        android:title="@string/action_settings"
+        android:title="@string/action_settings_organize_list"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_settings_defaults"
+        android:orderInCategory="100"
+        android:title="@string/action_settings_defaults"
         app:showAsAction="never" />
 </menu>

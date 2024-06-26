@@ -53,8 +53,8 @@ class HomeFragment : Fragment() {
         super.onCreateOptionsMenu(menu, inflater)
         Log.d("HomeFragment", "Called onCreateOptionsMenu; $menu")
         inflater.inflate(R.menu.main, menu)
-        menu.findItem(R.id.action_settings)?.isVisible = true
-        menu.findItem(R.id.action_settings2)?.isVisible = true
+//        menu.findItem(R.id.action_settings)?.isVisible = true
+//        menu.findItem(R.id.action_settings2)?.isVisible = true
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

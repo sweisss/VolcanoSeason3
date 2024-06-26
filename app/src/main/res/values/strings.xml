@@ -9,7 +9,11 @@
     <string name="nav_header_title">Volcano Season</string>
     <string name="nav_header_subtitle">Navigation Links</string>
     <string name="nav_header_desc">Navigation header</string>
+
     <string name="action_settings">Settings</string>
+    <string name="action_settings_display_size">Set Display Size</string>
+    <string name="action_settings_organize_list">Organize Forecast List</string>
+    <string name="action_settings_defaults">Add Default Forecasts</string>
 
     <string name="menu_home">Home</string>
     <string name="menu_home_links">Home - Choose a Forecast</string>
