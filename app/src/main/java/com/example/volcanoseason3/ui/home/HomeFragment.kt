@@ -11,6 +11,9 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.RadioGroup
+import android.widget.Spinner
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.volcanoseason3.R
 import com.example.volcanoseason3.data.gallery.ForecastLink
 import com.example.volcanoseason3.databinding.FragmentHomeBinding
+import com.google.android.material.snackbar.Snackbar
 
 class HomeFragment : Fragment() {
 
@@ -57,6 +61,10 @@ class HomeFragment : Fragment() {
         return when (item.itemId) {
             R.id.action_settings_defaults -> {
                 populateDefaultForecastLinks()
+                true
+            }
+            R.id.action_settings_organize_list -> {
+                showOrganizeSettingsDialog()
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -132,6 +140,44 @@ class HomeFragment : Fragment() {
         defaultForecastLinks.forEach { link ->
             viewModel.addForecastLink(link)
         }
+    }
+
+    private fun showOrganizeSettingsDialog() {
+        val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_organize_links, null)
+        val spinnerSortBy = dialogView.findViewById<Spinner>(R.id.spinner_sort_by)
+        val spinnerOrder = dialogView.findViewById<Spinner>(R.id.spinner_order)
+        val spinnerSeparation = dialogView.findViewById<Spinner>(R.id.spinner_separation)
+
+        androidx.appcompat.app.AlertDialog.Builder(requireContext())
+            .setTitle("Organize Forecast Links")
+            .setView(dialogView)
+            .setPositiveButton("OK") { dialog, _ ->
+                val sortBy = spinnerSortBy.selectedItem.toString()
+                val order = spinnerOrder.selectedItem.toString()
+                val separation = spinnerSeparation.selectedItem.toString()
+
+                // Handle the selected options here
+                when (sortBy) {
+                    "Alphabetically" -> organizeLinksAlphabetically(order, separation)
+                    "By Longitude" -> organizeLinksByLongitude(order, separation)
+                    // Add more conditions if needed
+                }
+
+                dialog.dismiss()
+            }
+            .setNegativeButton("Cancel") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .create()
+            .show()
+    }
+
+    private fun organizeLinksAlphabetically(order: String, separation: String) {
+        // Implement the logic to organize links alphabetically
+    }
+
+    private fun organizeLinksByLongitude(order: String, separation: String) {
+        // Implement the logic to organize links by longitude
     }
 
     override fun onDestroyView() {

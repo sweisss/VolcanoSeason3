@@ -61,4 +61,23 @@
     <string name="dialog_radio_volcano">&volcano; Volcano</string>
     <string name="dialog_radio_region">&sun_clouds; Region</string>
 
+    <!-- Sort by options -->
+    <string-array name="sort_by_options">
+        <item>Alphabetically</item>
+        <item>By Longitude</item>
+    </string-array>
+
+    <!-- Order options -->
+    <string-array name="order_options">
+        <item>Regions First</item>
+        <item>Volcanoes First</item>
+        <item>Not Separated</item>
+    </string-array>
+
+    <!-- Separation options -->
+    <string-array name="separation_options">
+        <item>Custom</item>
+        <!-- Add more options if needed -->
+    </string-array>
+
 </resources>
