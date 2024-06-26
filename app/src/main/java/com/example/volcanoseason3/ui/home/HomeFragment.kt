@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
@@ -52,6 +53,16 @@ class HomeFragment : Fragment() {
         inflater.inflate(R.menu.menu_home, menu)
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_settings_defaults -> {
+                populateDefaultForecastLinks()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         Log.d("HomeFragment", "onViewCreated")
@@ -62,8 +73,6 @@ class HomeFragment : Fragment() {
 
         adapter = ForecastLinkAdapter(::onForecastLinkClicked, ::onForecastLinkLongPressed)
         forecastLinks.adapter = adapter
-
-        populateDefaultForecastLinks()
 
         viewModel.forecastLinks.observe(viewLifecycleOwner) { links ->
             Log.d("HomeFragment", "links: $links")
