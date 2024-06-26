@@ -145,7 +145,7 @@ class HomeFragment : Fragment() {
     private fun showOrganizeSettingsDialog() {
         val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_organize_links, null)
         val spinnerSortBy = dialogView.findViewById<Spinner>(R.id.spinner_sort_by)
-        val spinnerOrder = dialogView.findViewById<Spinner>(R.id.spinner_order)
+//        val spinnerOrder = dialogView.findViewById<Spinner>(R.id.spinner_order)
         val spinnerSeparation = dialogView.findViewById<Spinner>(R.id.spinner_separation)
 
         androidx.appcompat.app.AlertDialog.Builder(requireContext())
@@ -153,13 +153,13 @@ class HomeFragment : Fragment() {
             .setView(dialogView)
             .setPositiveButton("OK") { dialog, _ ->
                 val sortBy = spinnerSortBy.selectedItem.toString()
-                val order = spinnerOrder.selectedItem.toString()
+//                val order = spinnerOrder.selectedItem.toString()
                 val separation = spinnerSeparation.selectedItem.toString()
 
                 // Handle the selected options here
                 when (sortBy) {
-                    "Alphabetically" -> organizeLinksAlphabetically(order, separation)
-                    "By Longitude" -> organizeLinksByLongitude(order, separation)
+                    "Alphabetically" -> organizeLinksAlphabetically(separation)
+                    "Longitude (North-South)" -> organizeLinksByLongitude(separation)
                     // Add more conditions if needed
                 }
 
@@ -172,11 +172,11 @@ class HomeFragment : Fragment() {
             .show()
     }
 
-    private fun organizeLinksAlphabetically(order: String, separation: String) {
+    private fun organizeLinksAlphabetically(separation: String) {
         // Implement the logic to organize links alphabetically
     }
 
-    private fun organizeLinksByLongitude(order: String, separation: String) {
+    private fun organizeLinksByLongitude(separation: String) {
         // Implement the logic to organize links by longitude
     }
 

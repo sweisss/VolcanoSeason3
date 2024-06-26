@@ -61,23 +61,27 @@
     <string name="dialog_radio_volcano">&volcano; Volcano</string>
     <string name="dialog_radio_region">&sun_clouds; Region</string>
 
-    <!-- Sort by options -->
-    <string-array name="sort_by_options">
-        <item>Alphabetically</item>
-        <item>By Longitude</item>
-    </string-array>
+    <!-- Organize Forecast List titles -->
+    <string name="spinner_sort_by_title">Sort by</string>
+    <string name="spinner_separation_title">Separation</string>
 
-    <!-- Order options -->
-    <string-array name="order_options">
-        <item>Regions First</item>
-        <item>Volcanoes First</item>
-        <item>Not Separated</item>
+    <!-- Sort by options -->
+    <string-array name="options_sort_by">
+        <item>Alphabetically</item>
+        <item>Longitude (North-South)</item>
     </string-array>
 
     <!-- Separation options -->
-    <string-array name="separation_options">
-        <item>Custom</item>
-        <!-- Add more options if needed -->
+    <string-array name="options_separation">
+        <item>Volcanoes First</item>
+        <item>Regions First</item>
+        <item>Not Separated</item>
+    </string-array>
+
+    <!-- Custom options -->
+    <string-array name="options_custom">
+        <item>Custom Placeholder 1</item>
+        <item>Custom Placeholder 2</item>
     </string-array>
 
 </resources>
