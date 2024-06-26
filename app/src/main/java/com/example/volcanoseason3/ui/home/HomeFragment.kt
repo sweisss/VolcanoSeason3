@@ -102,11 +102,11 @@ class HomeFragment : Fragment() {
 
     private fun onForecastLinkLongPressed(link: ForecastLink): Boolean {
         Log.d("HomeFragment", "Long pressed on ForecastLink: $link")
-        showConfirmationDialog(link)
+        showRemoveLinkConfirmationDialog(link)
         return true
     }
 
-    private fun showConfirmationDialog(link: ForecastLink) {
+    private fun showRemoveLinkConfirmationDialog(link: ForecastLink) {
         val builder = AlertDialog.Builder(requireContext())
         builder.setTitle("Remove Forecast Link")
         builder.setMessage("Are you sure you want to remove\n${link.name}?")
