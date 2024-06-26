@@ -65,24 +65,53 @@
     <!-- Organize Forecast List titles -->
     <string name="spinner_sort_by_title">Sort by</string>
     <string name="spinner_separation_title">Separation</string>
+    <string name="pref_custom_title">Custom</string>
 
+    <!-- Organize Forecast List keys -->
+    <string name="pref_sort_key">sort</string>
+    <string name="pref_separate_key">separate</string>
+    <string name="pref_custom_key">custom</string>
+    
     <!-- Sort by options -->
+    <string name="pref_sort_entry_alphabet">Alphabetically</string>
+    <string name="pref_sort_entry_longitude">Longitude (North-South)</string>
+
+    <string name="pref_sort_val_alphabet">alphabet</string>
+    <string name="pref_sort_val_longitude">longitude</string>
+
     <string-array name="options_sort_by">
-        <item>Alphabetically</item>
-        <item>Longitude (North-South)</item>
+        <item>@string/pref_sort_entry_alphabet</item>
+        <item>@string/pref_sort_entry_longitude</item>
     </string-array>
+
+    <string name="options_sort_default">@string/pref_sort_entry_alphabet</string>
 
     <!-- Separation options -->
+    <string name="prefs_separate_entry_volcano">Volcanoes First</string>
+    <string name="prefs_separate_entry_region">Regions First</string>
+    <string name="prefs_separate_entry_not">Not Separated</string>
+
+    <string name="prefs_separate_val_volcano">Volcanoes First</string>
+    <string name="prefs_separate_val_region">Regions First</string>
+    <string name="prefs_separate_val_not">Not Separated</string>
+
     <string-array name="options_separation">
-        <item>Volcanoes First</item>
-        <item>Regions First</item>
-        <item>Not Separated</item>
+        <item>@string/prefs_separate_entry_volcano</item>
+        <item>@string/prefs_separate_entry_region</item>
+        <item>@string/prefs_separate_entry_not</item>
     </string-array>
+    <string name="options_separation_default">@string/prefs_separate_val_volcano</string>
 
     <!-- Custom options -->
+    <string name="pref_custom_entry_1">Custom Placeholder 1</string>
+    <string name="pref_custom_entry_2">Custom Placeholder 2</string>
+
+    <string name="pref_custom_val_1">Custom Placeholder 1</string>
+    <string name="pref_custom_val_2">Custom Placeholder 2</string>
+
     <string-array name="options_custom">
-        <item>Custom Placeholder 1</item>
-        <item>Custom Placeholder 2</item>
+        <item>@string/pref_custom_entry_1</item>
+        <item>@string/pref_custom_entry_2</item>
     </string-array>
 
 </resources>
