@@ -2,7 +2,6 @@ package com.example.volcanoseason3.ui.home
 
 import android.app.AlertDialog
 import android.content.Intent
-import android.database.sqlite.SQLiteConstraintException
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -13,8 +12,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.viewModelScope
-import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.volcanoseason3.R
@@ -52,7 +49,7 @@ class HomeFragment : Fragment() {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         Log.d("HomeFragment", "Called onCreateOptionsMenu; $menu")
-        inflater.inflate(R.menu.main, menu)
+        inflater.inflate(R.menu.menu_home, menu)
 //        menu.findItem(R.id.action_settings)?.isVisible = true
 //        menu.findItem(R.id.action_settings2)?.isVisible = true
     }
