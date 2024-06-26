@@ -22,6 +22,7 @@
     <string name="emoji_volcano">\uD83C\uDF0B</string>
     <string name="emoji_region">\uD83C\uDF24</string>
 
+    <!-- Default ForecastLink strings -->
     <string-array name="forecast_link_names">
         <item>Mt Adams"</item>
         <item>Mount Bachelor"</item>
@@ -37,7 +38,6 @@
         <item>Mt Washington"</item>
         <item>Bend NOAA</item>
     </string-array>
-
 
     <string-array name="forecast_links">
         <item>https://www.mountain-forecast.com/peaks/Mount-Adams/forecasts/3741</item>
@@ -55,6 +55,7 @@
         <item>https://forecast.weather.gov/MapClick.php?lat=44.06&amp;lon=-121.3#.YsZ5b-zMLeo</item>
     </string-array>
 
+    <!-- Add a ForecastLink dialog -->
     <string name="dialog_title">Add a forecast</string>
     <string name="dialog_name">Forecast Name</string>
     <string name="dialog_link">Link URL</string>
