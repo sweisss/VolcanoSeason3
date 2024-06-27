@@ -21,6 +21,7 @@ import com.example.volcanoseason3.R
 import com.example.volcanoseason3.data.gallery.ForecastLink
 import com.example.volcanoseason3.databinding.FragmentHomeBinding
 import com.google.android.material.snackbar.Snackbar
+import java.time.LocalTime
 
 class HomeFragment : Fragment() {
 
@@ -87,7 +88,8 @@ class HomeFragment : Fragment() {
 
         viewModel.forecastLinks.observe(viewLifecycleOwner) { links ->
             Log.d("HomeFragment", "links: $links")
-            val sortedLinks = sortLinks(links.toMutableList())
+//            val sortedLinks = sortLinks(links.toMutableList())
+            val sortedLinks = separateLinks(sortLinks(links.toMutableList()))
             adapter.updateForecastLinks(sortedLinks)
             forecastLinks.scrollToPosition(0)
         }
@@ -182,7 +184,8 @@ class HomeFragment : Fragment() {
 
                 // Apply the new sorting
                 val links = viewModel.forecastLinks.value ?: emptyList()
-                val sortedLinks = sortLinks(links.toMutableList())
+//                val sortedLinks = sortLinks(links.toMutableList())
+                val sortedLinks = separateLinks(sortLinks(links.toMutableList()))
                 adapter.updateForecastLinks(sortedLinks)
 
                 dialog.dismiss()
@@ -226,6 +229,35 @@ class HomeFragment : Fragment() {
 
     private fun normalizeName(name: String): String {
         return name.replaceFirst("^(Mt\\.?\\s*|Mount\\s*)".toRegex(RegexOption.IGNORE_CASE), "").trim()
+    }
+
+    private fun separateLinks(links: MutableList<ForecastLink>) : MutableList<ForecastLink> {
+        val sharedPreferences = requireContext().getSharedPreferences("HomeFragmentSettings", Context.MODE_PRIVATE)
+        val separateOrder = sharedPreferences.getString("separation", getString(R.string.prefs_separate_val_volcano))
+        var volcanoes = mutableListOf<ForecastLink>()
+        var regions = mutableListOf<ForecastLink>()
+
+        Log.d("HomeFragment", "Separating Links")
+
+        links.forEach {
+            if (it.emoji == getString(R.string.emoji_volcano)) {
+                volcanoes += it
+            } else {
+                regions += it
+            }
+        }
+
+        return when (separateOrder) {
+            getString(R.string.prefs_separate_val_volcano) -> {
+                Log.d("HomeFragment", "Separated list with volcanoes first: ${(volcanoes + regions).toMutableList()}")
+                return (volcanoes + regions).toMutableList()
+            }
+            getString(R.string.prefs_separate_val_region) -> {
+                Log.d("HomeFragment", "Separated list with regions first: ${(volcanoes + regions).toMutableList()}")
+                return (regions + volcanoes).toMutableList()
+            }
+            else -> links
+        }
     }
 
     override fun onDestroyView() {
