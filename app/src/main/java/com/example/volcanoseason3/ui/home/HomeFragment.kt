@@ -87,7 +87,8 @@ class HomeFragment : Fragment() {
 
         viewModel.forecastLinks.observe(viewLifecycleOwner) { links ->
             Log.d("HomeFragment", "links: $links")
-            adapter.updateForecastLinks(links.toMutableList())
+            val sortedLinks = sortLinks(links.toMutableList())
+            adapter.updateForecastLinks(sortedLinks)
             forecastLinks.scrollToPosition(0)
         }
     }
