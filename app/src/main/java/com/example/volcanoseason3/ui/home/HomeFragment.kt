@@ -15,6 +15,7 @@ import android.view.ViewGroup
 import android.widget.Spinner
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.volcanoseason3.R
@@ -85,6 +86,28 @@ class HomeFragment : Fragment() {
         adapter = ForecastLinkAdapter(::onForecastLinkClicked, ::onForecastLinkLongPressed)
         forecastLinks.adapter = adapter
 
+        val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(
+            0,
+            ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+        ) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val position = viewHolder.adapterPosition
+                val forecastLink = adapter.getItemAt(position)
+                showRemoveLinkConfirmationDialog(forecastLink, position)
+            }
+        }
+
+        val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
+        itemTouchHelper.attachToRecyclerView(forecastLinks)
+
         viewModel.forecastLinks.observe(viewLifecycleOwner) { links ->
             val sortedLinks = separateLinks(sortLinks(links.toMutableList()))
             adapter.updateForecastLinks(sortedLinks)
@@ -107,11 +130,11 @@ class HomeFragment : Fragment() {
 
     private fun onForecastLinkLongPressed(link: ForecastLink): Boolean {
         Log.d("HomeFragment", "Long pressed on ForecastLink: $link")
-        showRemoveLinkConfirmationDialog(link)
+        Snackbar.make(binding.root, "Add the edit ForecastLink option here", Snackbar.LENGTH_LONG).show()
         return true
     }
 
-    private fun showRemoveLinkConfirmationDialog(link: ForecastLink) {
+    private fun showRemoveLinkConfirmationDialog(link: ForecastLink, position: Int) {
         val builder = AlertDialog.Builder(requireContext())
         builder.setTitle("Remove Forecast Link")
         builder.setMessage("Are you sure you want to remove\n${link.name}?")
@@ -121,6 +144,7 @@ class HomeFragment : Fragment() {
             dialog.dismiss()
         }
         builder.setNegativeButton("Cancel") { dialog, _ ->
+            adapter.notifyItemChanged(position)
             dialog.dismiss()
         }
         builder.show()
