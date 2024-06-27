@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.volcanoseason3.R
 import com.example.volcanoseason3.data.gallery.ForecastLink
 import com.example.volcanoseason3.databinding.FragmentHomeBinding
+import com.google.android.material.snackbar.Snackbar
 
 class HomeFragment : Fragment() {
 
@@ -63,6 +64,10 @@ class HomeFragment : Fragment() {
             }
             R.id.action_settings_organize_list -> {
                 showOrganizeSettingsDialog()
+                true
+            }
+            R.id.action_settings_display_size -> {
+                Snackbar.make(binding.root, "Add the display settings action here.", Snackbar.LENGTH_LONG).show()
                 true
             }
             else -> super.onOptionsItemSelected(item)
