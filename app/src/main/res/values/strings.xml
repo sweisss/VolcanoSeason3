@@ -9,7 +9,11 @@
     <string name="nav_header_title">Volcano Season</string>
     <string name="nav_header_subtitle">Navigation Links</string>
     <string name="nav_header_desc">Navigation header</string>
+
     <string name="action_settings">Settings</string>
+    <string name="action_settings_display_size">Set Display Size</string>
+    <string name="action_settings_organize_list">Organize Forecast List</string>
+    <string name="action_settings_defaults">Add Default Forecasts</string>
 
     <string name="menu_home">Home</string>
     <string name="menu_home_links">Home - Choose a Forecast</string>
@@ -18,6 +22,7 @@
     <string name="emoji_volcano">\uD83C\uDF0B</string>
     <string name="emoji_region">\uD83C\uDF24</string>
 
+    <!-- Default ForecastLink strings -->
     <string-array name="forecast_link_names">
         <item>Mt Adams"</item>
         <item>Mount Bachelor"</item>
@@ -33,7 +38,6 @@
         <item>Mt Washington"</item>
         <item>Bend NOAA</item>
     </string-array>
-
 
     <string-array name="forecast_links">
         <item>https://www.mountain-forecast.com/peaks/Mount-Adams/forecasts/3741</item>
@@ -51,10 +55,77 @@
         <item>https://forecast.weather.gov/MapClick.php?lat=44.06&amp;lon=-121.3#.YsZ5b-zMLeo</item>
     </string-array>
 
+    <!-- Add a ForecastLink dialog -->
     <string name="dialog_title">Add a forecast</string>
     <string name="dialog_name">Forecast Name</string>
     <string name="dialog_link">Link URL</string>
     <string name="dialog_radio_volcano">&volcano; Volcano</string>
     <string name="dialog_radio_region">&sun_clouds; Region</string>
+
+    <!-- Organize Forecast List titles -->
+    <string name="spinner_sort_by_title">Sort by</string>
+    <string name="spinner_separation_title">Separation</string>
+    <string name="pref_custom_title">Custom</string>
+
+    <!-- Organize Forecast List keys -->
+    <string name="pref_sort_key">sort</string>
+    <string name="pref_separate_key">separate</string>
+    <string name="pref_custom_key">custom</string>
+    
+    <!-- Sort by options -->
+    <string name="pref_sort_entry_alphabet">Alphabetically</string>
+    <string name="pref_sort_entry_longitude">Longitude (North-South)</string>
+
+    <string name="pref_sort_val_alphabet">alphabet</string>
+    <string name="pref_sort_val_longitude">longitude</string>
+
+    <string-array name="options_sort_by_entries">
+        <item>@string/pref_sort_entry_alphabet</item>
+        <item>@string/pref_sort_entry_longitude</item>
+    </string-array>
+    <string-array name="options_sort_by_values">
+        <item>@string/pref_sort_val_alphabet</item>
+        <item>@string/pref_sort_val_longitude</item>
+    </string-array>
+
+    <string name="options_sort_default">@string/pref_sort_entry_alphabet</string>
+
+    <!-- Separation options -->
+    <string name="prefs_separate_entry_volcano">Volcanoes First</string>
+    <string name="prefs_separate_entry_region">Regions First</string>
+    <string name="prefs_separate_entry_not">Not Separated</string>
+
+    <string name="prefs_separate_val_volcano">Volcanoes First</string>
+    <string name="prefs_separate_val_region">Regions First</string>
+    <string name="prefs_separate_val_not">Not Separated</string>
+
+    <string-array name="options_separation_entries">
+        <item>@string/prefs_separate_entry_volcano</item>
+        <item>@string/prefs_separate_entry_region</item>
+        <item>@string/prefs_separate_entry_not</item>
+    </string-array>
+    <string-array name="options_separation_values">
+        <item>@string/prefs_separate_val_volcano</item>
+        <item>@string/prefs_separate_val_region</item>
+        <item>@string/prefs_separate_val_not</item>
+    </string-array>
+
+    <string name="options_separation_default">@string/prefs_separate_val_volcano</string>
+
+    <!-- Custom options -->
+    <string name="pref_custom_entry_1">Custom Placeholder 1</string>
+    <string name="pref_custom_entry_2">Custom Placeholder 2</string>
+
+    <string name="pref_custom_val_1">custom1</string>
+    <string name="pref_custom_val_2">custom2</string>
+
+    <string-array name="options_custom_entries">
+        <item>@string/pref_custom_entry_1</item>
+        <item>@string/pref_custom_entry_2</item>
+    </string-array>
+    <string-array name="options_custom_values">
+        <item>@string/pref_custom_val_1</item>
+        <item>@string/pref_custom_val_2</item>
+    </string-array>
 
 </resources>

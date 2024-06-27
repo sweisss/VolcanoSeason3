@@ -5,6 +5,7 @@ import android.provider.MediaStore.Audio.Radio
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
+import android.view.MenuItem
 import android.widget.EditText
 import android.widget.RadioButton
 import android.widget.RadioGroup
@@ -19,6 +20,7 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.onNavDestinationSelected
 import com.example.volcanoseason3.databinding.ActivityMainBinding
 import com.example.volcanoseason3.databinding.FragmentHomeBinding
 import com.example.volcanoseason3.ui.home.HomeFragment
@@ -65,11 +67,12 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.main, menu)
-        return true
-    }
+    // Temporarily comment out and move into fragments for fragment-specific menu items
+//    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+//        // Inflate the menu; this adds items to the action bar if it is present.
+//        menuInflater.inflate(R.menu.main, menu)
+//        return true
+//    }
 
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
