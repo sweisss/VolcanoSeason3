@@ -156,7 +156,7 @@ class HomeFragment : Fragment() {
         }
 
         androidx.appcompat.app.AlertDialog.Builder(requireContext())
-            .setTitle("Edit Forecast Link ${link.name}")    // Maybe put this in strings.xml
+            .setTitle("Edit Forecast Link")    // Maybe put this in strings.xml
             .setView(dialogView)
             .setPositiveButton("Update") { dialog, _ ->
                 val updatedName = editTextName.text.toString()
