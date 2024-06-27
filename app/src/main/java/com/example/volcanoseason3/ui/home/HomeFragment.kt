@@ -134,7 +134,6 @@ class HomeFragment : Fragment() {
 
     private fun onForecastLinkLongPressed(link: ForecastLink): Boolean {
         Log.d("HomeFragment", "Long pressed on ForecastLink: $link")
-        Snackbar.make(binding.root, "Add the edit ForecastLink option here", Snackbar.LENGTH_LONG).show()
         showEditLinkDialog(link)
         return true
     }
