@@ -7,7 +7,9 @@ import androidx.lifecycle.viewModelScope
 import com.example.volcanoseason3.data.gallery.AppDatabase
 import com.example.volcanoseason3.data.gallery.ForecastLink
 import com.example.volcanoseason3.data.gallery.ForecastLinksRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class ForecastLinksViewModel(application: Application) : AndroidViewModel(application) {
     private val repository = ForecastLinksRepository(
@@ -25,6 +27,12 @@ class ForecastLinksViewModel(application: Application) : AndroidViewModel(applic
     fun removeForecastLink(link: ForecastLink) {
         viewModelScope.launch {
             repository.deleteForecastLink(link)
+        }
+    }
+
+    fun updateForecastLink(link: ForecastLink) {
+        viewModelScope.launch {
+            repository.updateForecastLink(link)
         }
     }
 }

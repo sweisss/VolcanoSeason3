@@ -12,9 +12,13 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.RadioButton
+import android.widget.RadioGroup
 import android.widget.Spinner
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -131,7 +135,53 @@ class HomeFragment : Fragment() {
     private fun onForecastLinkLongPressed(link: ForecastLink): Boolean {
         Log.d("HomeFragment", "Long pressed on ForecastLink: $link")
         Snackbar.make(binding.root, "Add the edit ForecastLink option here", Snackbar.LENGTH_LONG).show()
+        showEditLinkDialog(link)
         return true
+    }
+
+    private fun showEditLinkDialog(link: ForecastLink): Unit {
+        val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_add_link, null)
+        val editTextName = dialogView.findViewById<EditText>(R.id.edit_text_name)
+        val editTextUrl = dialogView.findViewById<EditText>(R.id.edit_text_link)
+        val radioGroupOptions = dialogView.findViewById<RadioGroup>(R.id.radioGroupOptions)
+        val radioButtonVolcano = dialogView.findViewById<RadioButton>(R.id.radio_button_volcano)
+        val radioButtonArea = dialogView.findViewById<RadioButton>(R.id.radio_button_region)
+
+        // Set the default values to the current ForecastLink attribute values
+        editTextName.setText(link.name)
+        editTextUrl.setText(link.url)
+        when (link.emoji) {
+            getString(R.string.emoji_volcano) -> radioButtonVolcano.isChecked = true
+            getString(R.string.emoji_region) -> radioButtonArea.isChecked = true
+        }
+
+        androidx.appcompat.app.AlertDialog.Builder(requireContext())
+            .setTitle("Edit Forecast Link ${link.name}")    // Maybe put this in strings.xml
+            .setView(dialogView)
+            .setPositiveButton("Update") { dialog, _ ->
+                val updatedName = editTextName.text.toString()
+                val updatedUrl = editTextUrl.text.toString()
+                val updatedEmoji = when (radioGroupOptions.checkedRadioButtonId) {
+                    R.id.radio_button_volcano -> getString(R.string.emoji_volcano)
+                    R.id.radio_button_region -> getString(R.string.emoji_region)
+                    else -> link.emoji
+                }
+//                if (isValidUrl(updatedUrl)) {
+//                    addLinkToHomeFragment(updatedName, updatedUrl, updatedEmoji)
+//                } else {
+//                    Snackbar.make(binding.root, "Invalid URL. Please try again", Snackbar.LENGTH_LONG).show()
+//                }
+
+                val updatedLink = link.copy(name = updatedName, url = updatedUrl, emoji = updatedEmoji)
+                viewModel.updateForecastLink(updatedLink)
+                adapter.notifyDataSetChanged()
+                dialog.dismiss()
+            }
+            .setNegativeButton("Cancel") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .create()
+            .show()
     }
 
     private fun showRemoveLinkConfirmationDialog(link: ForecastLink, position: Int) {
