@@ -166,12 +166,6 @@ class HomeFragment : Fragment() {
                     R.id.radio_button_region -> getString(R.string.emoji_region)
                     else -> link.emoji
                 }
-//                if (isValidUrl(updatedUrl)) {
-//                    addLinkToHomeFragment(updatedName, updatedUrl, updatedEmoji)
-//                } else {
-//                    Snackbar.make(binding.root, "Invalid URL. Please try again", Snackbar.LENGTH_LONG).show()
-//                }
-
                 val updatedLink = link.copy(name = updatedName, url = updatedUrl, emoji = updatedEmoji)
                 viewModel.updateForecastLink(updatedLink)
                 adapter.notifyDataSetChanged()
