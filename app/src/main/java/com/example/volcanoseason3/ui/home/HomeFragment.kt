@@ -121,7 +121,7 @@ class HomeFragment : Fragment() {
 
     fun addLink(name: String, link: String, emoji: String) {
         Log.d("HomeFragment", "Adding link for forecast: $name, $link")
-        val newForecastLink = ForecastLink(name, link, emoji)
+        val newForecastLink = ForecastLink(name = name, url = link, emoji = emoji)
         viewModel.addForecastLink(newForecastLink)
         adapter.notifyDataSetChanged()
     }
@@ -208,9 +208,9 @@ class HomeFragment : Fragment() {
         val defaultForecastLinks = ArrayList(
             linkNames.zip(links) { name, link ->
                 if (name.contains("NOAA")) {
-                    ForecastLink(name, link, regionEmoji)
+                    ForecastLink(name = name, url = link, emoji = regionEmoji)
                 } else {
-                    ForecastLink(name, link, volcanoEmoji)
+                    ForecastLink(name = name, url = link, emoji = volcanoEmoji)
                 }
             }.toList()
         )
