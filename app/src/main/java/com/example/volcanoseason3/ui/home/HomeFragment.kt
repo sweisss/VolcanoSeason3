@@ -180,11 +180,15 @@ class HomeFragment : Fragment() {
                 }
 
                 // Handle the selected options here
-                when (sortBy) {
-                    getString(R.string.pref_sort_val_alphabet) -> organizeLinksAlphabetically(separation)
-                    getString(R.string.pref_sort_val_longitude) -> organizeLinksByLongitude(separation)
-                    // Add more conditions if needed
-                }
+//                when (sortBy) {
+//                    getString(R.string.pref_sort_val_alphabet) -> organizeLinksAlphabetically(separation)
+//                    getString(R.string.pref_sort_val_longitude) -> organizeLinksByLongitude(separation)
+//                    // Add more conditions if needed
+//                }
+                // Apply the new sorting
+                val links = viewModel.forecastLinks.value ?: emptyList()
+                val sortedLinks = sortLinks(links.toMutableList())
+                adapter.updateForecastLinks(sortedLinks)
 
                 dialog.dismiss()
             }
@@ -209,13 +213,33 @@ class HomeFragment : Fragment() {
         return values[spinner.selectedItemPosition]
     }
 
-    private fun organizeLinksAlphabetically(separation: String) {
-        // Implement the logic to organize links alphabetically
+    private fun sortLinks(links: MutableList<ForecastLink>) : MutableList<ForecastLink> {
+        val sharedPreferences = requireContext().getSharedPreferences("HomeFragmentSettings", Context.MODE_PRIVATE)
+        val sortBy = sharedPreferences.getString("sortBy", getString(R.string.pref_sort_val_alphabet))
+
+        return  when (sortBy) {
+            getString(R.string.pref_sort_val_alphabet) -> {
+                links.sortedBy { normalizeName(it.name) }.toMutableList()
+            }
+            getString(R.string.pref_sort_val_longitude) -> {
+                // placeholder sorting style: reverse alphabetical order
+                links.sortedByDescending { normalizeName(it.name) }.toMutableList()
+            }
+            else -> links
+        }
     }
 
-    private fun organizeLinksByLongitude(separation: String) {
-        // Implement the logic to organize links by longitude
+    private fun normalizeName(name: String): String {
+        return name.replaceFirst("^(Mt\\.?\\s*|Mount\\s*)".toRegex(RegexOption.IGNORE_CASE), "").trim()
     }
+
+//    private fun organizeLinksAlphabetically(separation: String) {
+//        // Implement the logic to organize links alphabetically
+//    }
+//
+//    private fun organizeLinksByLongitude(separation: String) {
+//        // Implement the logic to organize links by longitude
+//    }
 
     override fun onDestroyView() {
         super.onDestroyView()
