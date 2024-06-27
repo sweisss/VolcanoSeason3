@@ -12,9 +12,14 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.RadioButton
+import android.widget.RadioGroup
 import android.widget.Spinner
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.volcanoseason3.R
@@ -85,6 +90,28 @@ class HomeFragment : Fragment() {
         adapter = ForecastLinkAdapter(::onForecastLinkClicked, ::onForecastLinkLongPressed)
         forecastLinks.adapter = adapter
 
+        val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(
+            0,
+            ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+        ) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val position = viewHolder.adapterPosition
+                val forecastLink = adapter.getItemAt(position)
+                showRemoveLinkConfirmationDialog(forecastLink, position)
+            }
+        }
+
+        val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
+        itemTouchHelper.attachToRecyclerView(forecastLinks)
+
         viewModel.forecastLinks.observe(viewLifecycleOwner) { links ->
             val sortedLinks = separateLinks(sortLinks(links.toMutableList()))
             adapter.updateForecastLinks(sortedLinks)
@@ -94,7 +121,7 @@ class HomeFragment : Fragment() {
 
     fun addLink(name: String, link: String, emoji: String) {
         Log.d("HomeFragment", "Adding link for forecast: $name, $link")
-        val newForecastLink = ForecastLink(name, link, emoji)
+        val newForecastLink = ForecastLink(name = name, url = link, emoji = emoji)
         viewModel.addForecastLink(newForecastLink)
         adapter.notifyDataSetChanged()
     }
@@ -107,20 +134,60 @@ class HomeFragment : Fragment() {
 
     private fun onForecastLinkLongPressed(link: ForecastLink): Boolean {
         Log.d("HomeFragment", "Long pressed on ForecastLink: $link")
-        showRemoveLinkConfirmationDialog(link)
+        showEditLinkDialog(link)
         return true
     }
 
-    private fun showRemoveLinkConfirmationDialog(link: ForecastLink) {
+    private fun showEditLinkDialog(link: ForecastLink): Unit {
+        val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_add_link, null)
+        val editTextName = dialogView.findViewById<EditText>(R.id.edit_text_name)
+        val editTextUrl = dialogView.findViewById<EditText>(R.id.edit_text_link)
+        val radioGroupOptions = dialogView.findViewById<RadioGroup>(R.id.radioGroupOptions)
+        val radioButtonVolcano = dialogView.findViewById<RadioButton>(R.id.radio_button_volcano)
+        val radioButtonArea = dialogView.findViewById<RadioButton>(R.id.radio_button_region)
+
+        // Set the default values to the current ForecastLink attribute values
+        editTextName.setText(link.name)
+        editTextUrl.setText(link.url)
+        when (link.emoji) {
+            getString(R.string.emoji_volcano) -> radioButtonVolcano.isChecked = true
+            getString(R.string.emoji_region) -> radioButtonArea.isChecked = true
+        }
+
+        androidx.appcompat.app.AlertDialog.Builder(requireContext())
+            .setTitle("Edit Forecast Link")    // Maybe put this in strings.xml
+            .setView(dialogView)
+            .setPositiveButton("Update") { dialog, _ ->
+                val updatedName = editTextName.text.toString()
+                val updatedUrl = editTextUrl.text.toString()
+                val updatedEmoji = when (radioGroupOptions.checkedRadioButtonId) {
+                    R.id.radio_button_volcano -> getString(R.string.emoji_volcano)
+                    R.id.radio_button_region -> getString(R.string.emoji_region)
+                    else -> link.emoji
+                }
+                val updatedLink = link.copy(name = updatedName, url = updatedUrl, emoji = updatedEmoji)
+                viewModel.updateForecastLink(updatedLink)
+                adapter.notifyDataSetChanged()
+                dialog.dismiss()
+            }
+            .setNegativeButton("Cancel") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .create()
+            .show()
+    }
+
+    private fun showRemoveLinkConfirmationDialog(link: ForecastLink, position: Int) {
         val builder = AlertDialog.Builder(requireContext())
         builder.setTitle("Remove Forecast Link")
-        builder.setMessage("Are you sure you want to remove\n${link.name}?")
+        builder.setMessage("Are you sure you want to remove\n${link.emoji} ${link.name}?")
 
         builder.setPositiveButton("OK") { dialog, _ ->
             viewModel.removeForecastLink(link)
             dialog.dismiss()
         }
         builder.setNegativeButton("Cancel") { dialog, _ ->
+            adapter.notifyItemChanged(position)
             dialog.dismiss()
         }
         builder.show()
@@ -134,9 +201,9 @@ class HomeFragment : Fragment() {
         val defaultForecastLinks = ArrayList(
             linkNames.zip(links) { name, link ->
                 if (name.contains("NOAA")) {
-                    ForecastLink(name, link, regionEmoji)
+                    ForecastLink(name = name, url = link, emoji = regionEmoji)
                 } else {
-                    ForecastLink(name, link, volcanoEmoji)
+                    ForecastLink(name = name, url = link, emoji = volcanoEmoji)
                 }
             }.toList()
         )
