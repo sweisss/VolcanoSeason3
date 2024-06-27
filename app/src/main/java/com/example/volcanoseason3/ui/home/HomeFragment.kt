@@ -137,7 +137,7 @@ class HomeFragment : Fragment() {
     private fun showRemoveLinkConfirmationDialog(link: ForecastLink, position: Int) {
         val builder = AlertDialog.Builder(requireContext())
         builder.setTitle("Remove Forecast Link")
-        builder.setMessage("Are you sure you want to remove\n${link.name}?")
+        builder.setMessage("Are you sure you want to remove\n${link.emoji} ${link.name}?")
 
         builder.setPositiveButton("OK") { dialog, _ ->
             viewModel.removeForecastLink(link)
