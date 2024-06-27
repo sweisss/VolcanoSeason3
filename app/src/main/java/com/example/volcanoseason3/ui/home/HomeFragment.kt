@@ -53,7 +53,6 @@ class HomeFragment : Fragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        Log.d("HomeFragment", "Called onCreateOptionsMenu; $menu")
         inflater.inflate(R.menu.menu_home, menu)
     }
 
@@ -87,8 +86,6 @@ class HomeFragment : Fragment() {
         forecastLinks.adapter = adapter
 
         viewModel.forecastLinks.observe(viewLifecycleOwner) { links ->
-            Log.d("HomeFragment", "links: $links")
-//            val sortedLinks = sortLinks(links.toMutableList())
             val sortedLinks = separateLinks(sortLinks(links.toMutableList()))
             adapter.updateForecastLinks(sortedLinks)
             forecastLinks.scrollToPosition(0)
@@ -184,7 +181,6 @@ class HomeFragment : Fragment() {
 
                 // Apply the new sorting
                 val links = viewModel.forecastLinks.value ?: emptyList()
-//                val sortedLinks = sortLinks(links.toMutableList())
                 val sortedLinks = separateLinks(sortLinks(links.toMutableList()))
                 adapter.updateForecastLinks(sortedLinks)
 
@@ -237,8 +233,6 @@ class HomeFragment : Fragment() {
         var volcanoes = mutableListOf<ForecastLink>()
         var regions = mutableListOf<ForecastLink>()
 
-        Log.d("HomeFragment", "Separating Links")
-
         links.forEach {
             if (it.emoji == getString(R.string.emoji_volcano)) {
                 volcanoes += it
@@ -249,11 +243,9 @@ class HomeFragment : Fragment() {
 
         return when (separateOrder) {
             getString(R.string.prefs_separate_val_volcano) -> {
-                Log.d("HomeFragment", "Separated list with volcanoes first: ${(volcanoes + regions).toMutableList()}")
                 return (volcanoes + regions).toMutableList()
             }
             getString(R.string.prefs_separate_val_region) -> {
-                Log.d("HomeFragment", "Separated list with regions first: ${(volcanoes + regions).toMutableList()}")
                 return (regions + volcanoes).toMutableList()
             }
             else -> links
