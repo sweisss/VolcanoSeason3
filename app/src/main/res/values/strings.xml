@@ -66,11 +66,13 @@
     <string name="spinner_sort_by_title">Sort by</string>
     <string name="spinner_separation_title">Separation</string>
     <string name="pref_custom_title">Custom</string>
+    <string name="pref_dragdrop_title">Drag and Drop</string>
 
     <!-- Organize Forecast List keys -->
     <string name="pref_sort_key">sort</string>
     <string name="pref_separate_key">separate</string>
     <string name="pref_custom_key">custom</string>
+    <string name="pref_dragdrop_key">dragdrop</string>
     
     <!-- Sort by options -->
     <string name="pref_sort_entry_alphabet">Alphabetically</string>

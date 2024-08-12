@@ -16,6 +16,8 @@ import android.widget.EditText
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.Spinner
+import android.widget.Switch
+import androidx.appcompat.widget.SwitchCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -217,13 +219,27 @@ class HomeFragment : Fragment() {
         val spinnerSortBy = dialogView.findViewById<Spinner>(R.id.spinner_sort_by)
         val spinnerSeparation = dialogView.findViewById<Spinner>(R.id.spinner_separation)
 //        val spinnerCustomOptions = dialogView.findViewById<Spinner>(R.id.spinner_custom)
+        val switchDragDrop = dialogView.findViewById<SwitchCompat>(R.id.switch_drag_n_drop)
 
         val sharedPreferences = requireContext().getSharedPreferences("HomeFragmentSettings", Context.MODE_PRIVATE)
 
         // Load previously saved settings
         val savedSortBy = sharedPreferences.getString("sortBy", getString(R.string.pref_sort_val_alphabet))
         val savedSeparation = sharedPreferences.getString("separation", getString(R.string.prefs_separate_val_volcano))
-        val savedCustom = sharedPreferences.getString("custom", getString(R.string.pref_custom_val_1))
+//        val savedCustom = sharedPreferences.getString("custom", getString(R.string.pref_custom_val_1))
+        val savedDragDrop = sharedPreferences.getString("dragDrop", "disabled")
+
+        // Set the state of the switch based on saved value
+        val isDragDropEnabled = savedDragDrop == "enabled"
+        switchDragDrop.isChecked = isDragDropEnabled
+        spinnerSortBy.isEnabled = !isDragDropEnabled
+        spinnerSeparation.isEnabled = !isDragDropEnabled
+
+        // Set an OnCheckedChangeListener for the Switch
+        switchDragDrop.setOnCheckedChangeListener { _, isChecked ->
+            spinnerSortBy.isEnabled = !isChecked
+            spinnerSeparation.isEnabled = !isChecked
+        }
 
         // Map saved values to entries and set them as selected values in spinners
         setSpinnerSelection(spinnerSortBy, savedSortBy, R.array.options_sort_by_entries, R.array.options_sort_by_values)
@@ -237,12 +253,14 @@ class HomeFragment : Fragment() {
                 val sortBy = getSpinnerValue(spinnerSortBy, R.array.options_sort_by_values)
                 val separation = getSpinnerValue(spinnerSeparation, R.array.options_separation_values)
 //                val custom = getSpinnerValue(spinnerCustomOptions, R.array.options_custom_values)
+                val dragDropState = if (switchDragDrop.isChecked) "enabled" else "disabled"
 
                 // Save the selected settings to SharedPreferences
                 with(sharedPreferences.edit()) {
                     putString("sortBy", sortBy)
                     putString("separation", separation)
 //                    putString("custom", custom)
+                    putString("dragDrop", dragDropState)
                     apply()
                 }
 

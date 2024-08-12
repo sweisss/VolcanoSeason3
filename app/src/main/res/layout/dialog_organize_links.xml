@@ -48,6 +48,6 @@
         android:id="@+id/switch_drag_n_drop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Drag and Drop" />
+        android:text="@string/pref_dragdrop_title" />
 
 </LinearLayout>
