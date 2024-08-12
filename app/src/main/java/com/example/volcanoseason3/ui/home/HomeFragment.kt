@@ -216,7 +216,7 @@ class HomeFragment : Fragment() {
         val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_organize_links, null)
         val spinnerSortBy = dialogView.findViewById<Spinner>(R.id.spinner_sort_by)
         val spinnerSeparation = dialogView.findViewById<Spinner>(R.id.spinner_separation)
-        val spinnerCustomOptions = dialogView.findViewById<Spinner>(R.id.spinner_custom)
+//        val spinnerCustomOptions = dialogView.findViewById<Spinner>(R.id.spinner_custom)
 
         val sharedPreferences = requireContext().getSharedPreferences("HomeFragmentSettings", Context.MODE_PRIVATE)
 
@@ -228,7 +228,7 @@ class HomeFragment : Fragment() {
         // Map saved values to entries and set them as selected values in spinners
         setSpinnerSelection(spinnerSortBy, savedSortBy, R.array.options_sort_by_entries, R.array.options_sort_by_values)
         setSpinnerSelection(spinnerSeparation, savedSeparation, R.array.options_separation_entries, R.array.options_separation_values)
-        setSpinnerSelection(spinnerCustomOptions, savedCustom, R.array.options_custom_entries, R.array.options_custom_values)
+//        setSpinnerSelection(spinnerCustomOptions, savedCustom, R.array.options_custom_entries, R.array.options_custom_values)
 
         androidx.appcompat.app.AlertDialog.Builder(requireContext())
             .setTitle("Organize Forecast Links")
@@ -236,13 +236,13 @@ class HomeFragment : Fragment() {
             .setPositiveButton("OK") { dialog, _ ->
                 val sortBy = getSpinnerValue(spinnerSortBy, R.array.options_sort_by_values)
                 val separation = getSpinnerValue(spinnerSeparation, R.array.options_separation_values)
-                val custom = getSpinnerValue(spinnerCustomOptions, R.array.options_custom_values)
+//                val custom = getSpinnerValue(spinnerCustomOptions, R.array.options_custom_values)
 
                 // Save the selected settings to SharedPreferences
                 with(sharedPreferences.edit()) {
                     putString("sortBy", sortBy)
                     putString("separation", separation)
-                    putString("custom", custom)
+//                    putString("custom", custom)
                     apply()
                 }
 
