@@ -230,7 +230,7 @@ class HomeFragment : Fragment() {
         val savedDragDrop = sharedPreferences.getString("dragDrop", "disabled")
 
         // Set the state of the switch based on saved value
-        val isDragDropEnabled = savedDragDrop == "enabled"
+        var isDragDropEnabled = savedDragDrop == "enabled"
         switchDragDrop.isChecked = isDragDropEnabled
         spinnerSortBy.isEnabled = !isDragDropEnabled
         spinnerSeparation.isEnabled = !isDragDropEnabled
@@ -239,6 +239,9 @@ class HomeFragment : Fragment() {
         switchDragDrop.setOnCheckedChangeListener { _, isChecked ->
             spinnerSortBy.isEnabled = !isChecked
             spinnerSeparation.isEnabled = !isChecked
+
+            // Update the temporary Drag Drop variable
+            isDragDropEnabled = isChecked
         }
 
         // Map saved values to entries and set them as selected values in spinners
@@ -253,7 +256,7 @@ class HomeFragment : Fragment() {
                 val sortBy = getSpinnerValue(spinnerSortBy, R.array.options_sort_by_values)
                 val separation = getSpinnerValue(spinnerSeparation, R.array.options_separation_values)
 //                val custom = getSpinnerValue(spinnerCustomOptions, R.array.options_custom_values)
-                val dragDropState = if (switchDragDrop.isChecked) "enabled" else "disabled"
+                val dragDropState = if (isDragDropEnabled) "enabled" else "disabled"
 
                 // Save the selected settings to SharedPreferences
                 with(sharedPreferences.edit()) {
@@ -268,6 +271,7 @@ class HomeFragment : Fragment() {
                 val links = viewModel.forecastLinks.value ?: emptyList()
                 val sortedLinks = separateLinks(sortLinks(links.toMutableList()))
                 adapter.updateForecastLinks(sortedLinks)
+                adapter.updateDragDropEnabled(isDragDropEnabled)
 
                 dialog.dismiss()
             }

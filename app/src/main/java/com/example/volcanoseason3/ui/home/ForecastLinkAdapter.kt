@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.volcanoseason3.R
@@ -13,7 +14,8 @@ import com.google.android.material.snackbar.Snackbar
 
 class ForecastLinkAdapter(
     private val onClick: (ForecastLink) -> Unit,
-    private val onLongClick: (ForecastLink) -> Boolean
+    private val onLongClick: (ForecastLink) -> Boolean,
+    private var dragDropEnabled: Boolean = false
 ) : RecyclerView.Adapter<ForecastLinkAdapter.ForecastLinkViewHolder>() {
     private var forecastLinks: MutableList<ForecastLink> = mutableListOf()
 
@@ -44,7 +46,12 @@ class ForecastLinkAdapter(
         holder: ForecastLinkViewHolder,
         position: Int
     ) {
-        holder.bind(forecastLinks[position])
+        holder.bind(forecastLinks[position], dragDropEnabled)
+    }
+
+    fun updateDragDropEnabled(enabled: Boolean) {
+        dragDropEnabled = enabled
+        notifyDataSetChanged()
     }
 
     class ForecastLinkViewHolder(
@@ -53,6 +60,7 @@ class ForecastLinkAdapter(
         onLongClick: (ForecastLink) -> Boolean
     ) : RecyclerView.ViewHolder(view) {
         private val forecastNameTV: TextView = view.findViewById(R.id.tv_forecast_name)
+        private val dragIndicatorIV: ImageView = view.findViewById(R.id.iv_drag_indicator)
         private var currentForecast: ForecastLink? = null
 
         init {
@@ -81,10 +89,11 @@ class ForecastLinkAdapter(
             }
         }
 
-        fun bind(forecastlink: ForecastLink) {
+        fun bind(forecastlink: ForecastLink, dragDropEnabled: Boolean) {
             val concatenatedName = "${forecastlink.emoji}  ${forecastlink.name}"
             currentForecast = forecastlink
             forecastNameTV.text = concatenatedName
+            dragIndicatorIV.visibility = if (dragDropEnabled) View.VISIBLE else View.GONE
         }
 
         private fun isValidUrl(url: String): Boolean {
