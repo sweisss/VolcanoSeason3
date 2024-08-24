@@ -94,10 +94,6 @@ class HomeFragment : Fragment() {
         val sharedPreferences = requireContext().getSharedPreferences("HomeFragmentSettings", Context.MODE_PRIVATE)
         adapter.setSharedPreferences(sharedPreferences)
 
-//        val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(
-//            0,
-//            ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
-//        ) {
         val itemTouchHelperCallback = object : ItemTouchHelper.Callback() {
 
             override fun getMovementFlags(
@@ -114,7 +110,6 @@ class HomeFragment : Fragment() {
                 viewHolder: RecyclerView.ViewHolder,
                 target: RecyclerView.ViewHolder
             ): Boolean {
-//                return false
                 adapter.moveItem(viewHolder.adapterPosition, target.adapterPosition)
                 return true
             }
@@ -139,9 +134,6 @@ class HomeFragment : Fragment() {
         itemTouchHelper.attachToRecyclerView(forecastLinks)
 
         viewModel.forecastLinks.observe(viewLifecycleOwner) { links ->
-//            val sortedLinks = separateLinks(sortLinks(links.toMutableList()))
-//            adapter.updateForecastLinks(sortedLinks)
-//            forecastLinks.scrollToPosition(0)
             applySortingAndUpdate(links.toMutableList())
         }
     }
@@ -304,9 +296,6 @@ class HomeFragment : Fragment() {
 
                 // Apply the new sorting
                 val links = viewModel.forecastLinks.value ?: emptyList()
-//                val sortedLinks = separateLinks(sortLinks(links.toMutableList()))
-//                adapter.updateForecastLinks(sortedLinks)
-//                adapter.updateDragDropEnabled(isDragDropEnabled)
                 applySortingAndUpdate(links.toMutableList())
 
                 dialog.dismiss()
