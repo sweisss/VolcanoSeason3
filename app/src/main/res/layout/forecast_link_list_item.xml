@@ -8,17 +8,37 @@
     app:cardElevation="4dp"
     app:cardCornerRadius="8dp"
     app:cardBackgroundColor="@color/medium_blue">
-
-    <TextView
-        android:id="@+id/tv_forecast_name"
+    
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:paddingHorizontal="16dp"
-        android:paddingVertical="26dp"
-        android:textSize="18sp"
-        android:textColor="@color/white"
-        />
+        android:padding="8dp">
 
+        <TextView
+            android:id="@+id/tv_forecast_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="26dp"
+            android:textSize="18sp"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/iv_drag_indicator"
+            />
+
+        <ImageView
+            android:id="@+id/iv_drag_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/baseline_drag_indicator_24"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </com.google.android.material.card.MaterialCardView>

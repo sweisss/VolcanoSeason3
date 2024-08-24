@@ -31,17 +31,23 @@
         android:entries="@array/options_separation_entries"
         android:layout_marginBottom="16dp" />
 
-    <TextView
+<!--    <TextView-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="@string/pref_custom_title"-->
+<!--        android:layout_marginBottom="8dp" />-->
+
+<!--    <Spinner-->
+<!--        android:id="@+id/spinner_custom"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:entries="@array/options_custom_entries"-->
+<!--        android:layout_marginBottom="16dp" />-->
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/switch_drag_n_drop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/pref_custom_title"
-        android:layout_marginBottom="8dp" />
-
-    <Spinner
-        android:id="@+id/spinner_custom"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:entries="@array/options_custom_entries"
-        android:layout_marginBottom="16dp" />
+        android:text="@string/pref_dragdrop_title" />
 
 </LinearLayout>

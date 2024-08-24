@@ -16,6 +16,8 @@ import android.widget.EditText
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.Spinner
+import android.widget.Switch
+import androidx.appcompat.widget.SwitchCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -32,8 +34,7 @@ class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
+    // This property is only valid between onCreateView and onDestroyView.
     private val binding get() = _binding!!
 
     private val viewModel: ForecastLinksViewModel by viewModels()
@@ -90,16 +91,27 @@ class HomeFragment : Fragment() {
         adapter = ForecastLinkAdapter(::onForecastLinkClicked, ::onForecastLinkLongPressed)
         forecastLinks.adapter = adapter
 
-        val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(
-            0,
-            ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
-        ) {
+        val sharedPreferences = requireContext().getSharedPreferences("HomeFragmentSettings", Context.MODE_PRIVATE)
+        adapter.setSharedPreferences(sharedPreferences)
+
+        val itemTouchHelperCallback = object : ItemTouchHelper.Callback() {
+
+            override fun getMovementFlags(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder
+            ): Int {
+                val dragFlags = ItemTouchHelper.UP or ItemTouchHelper.DOWN
+                val swipeFlags = ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+                return makeMovementFlags(dragFlags, swipeFlags)
+            }
+
             override fun onMove(
                 recyclerView: RecyclerView,
                 viewHolder: RecyclerView.ViewHolder,
                 target: RecyclerView.ViewHolder
             ): Boolean {
-                return false
+                adapter.moveItem(viewHolder.adapterPosition, target.adapterPosition)
+                return true
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
@@ -107,16 +119,38 @@ class HomeFragment : Fragment() {
                 val forecastLink = adapter.getItemAt(position)
                 showRemoveLinkConfirmationDialog(forecastLink, position)
             }
+
+            override fun isLongPressDragEnabled(): Boolean {
+                return false // False so drag is only enabled from the drag handle.
+            }
+
+            override fun isItemViewSwipeEnabled(): Boolean {
+                return true
+            }
         }
 
         val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
+        adapter.setItemTouchHelper(itemTouchHelper)
         itemTouchHelper.attachToRecyclerView(forecastLinks)
 
         viewModel.forecastLinks.observe(viewLifecycleOwner) { links ->
-            val sortedLinks = separateLinks(sortLinks(links.toMutableList()))
-            adapter.updateForecastLinks(sortedLinks)
-            forecastLinks.scrollToPosition(0)
+            applySortingAndUpdate(links.toMutableList())
         }
+    }
+
+    private fun applySortingAndUpdate(links: MutableList<ForecastLink>) {
+        val sharedPreferences = requireContext().getSharedPreferences("HomeFragmentSettings", Context.MODE_PRIVATE)
+        val isDragDropEnabled = sharedPreferences.getString("dragDrop", "disabled") == "enabled"
+        val sortedLinks = if (isDragDropEnabled) {
+            adapter.loadOrderFromPreferences()
+            adapter.getForecastLinks()
+        } else {
+            separateLinks(sortLinks(links))
+        }
+
+        adapter.updateDragDropEnabled(isDragDropEnabled)
+        adapter.updateForecastLinks(sortedLinks.toMutableList())
+        forecastLinks.scrollToPosition(0)
     }
 
     fun addLink(name: String, link: String, emoji: String) {
@@ -216,19 +250,33 @@ class HomeFragment : Fragment() {
         val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_organize_links, null)
         val spinnerSortBy = dialogView.findViewById<Spinner>(R.id.spinner_sort_by)
         val spinnerSeparation = dialogView.findViewById<Spinner>(R.id.spinner_separation)
-        val spinnerCustomOptions = dialogView.findViewById<Spinner>(R.id.spinner_custom)
+        val switchDragDrop = dialogView.findViewById<SwitchCompat>(R.id.switch_drag_n_drop)
 
         val sharedPreferences = requireContext().getSharedPreferences("HomeFragmentSettings", Context.MODE_PRIVATE)
 
         // Load previously saved settings
         val savedSortBy = sharedPreferences.getString("sortBy", getString(R.string.pref_sort_val_alphabet))
         val savedSeparation = sharedPreferences.getString("separation", getString(R.string.prefs_separate_val_volcano))
-        val savedCustom = sharedPreferences.getString("custom", getString(R.string.pref_custom_val_1))
+        val savedDragDrop = sharedPreferences.getString("dragDrop", "disabled")
+
+        // Set the state of the switch based on saved value
+        var isDragDropEnabled = savedDragDrop == "enabled"
+        switchDragDrop.isChecked = isDragDropEnabled
+        spinnerSortBy.isEnabled = !isDragDropEnabled
+        spinnerSeparation.isEnabled = !isDragDropEnabled
+
+        // Set an OnCheckedChangeListener for the Switch
+        switchDragDrop.setOnCheckedChangeListener { _, isChecked ->
+            spinnerSortBy.isEnabled = !isChecked
+            spinnerSeparation.isEnabled = !isChecked
+
+            // Update the temporary Drag Drop variable
+            isDragDropEnabled = isChecked
+        }
 
         // Map saved values to entries and set them as selected values in spinners
         setSpinnerSelection(spinnerSortBy, savedSortBy, R.array.options_sort_by_entries, R.array.options_sort_by_values)
         setSpinnerSelection(spinnerSeparation, savedSeparation, R.array.options_separation_entries, R.array.options_separation_values)
-        setSpinnerSelection(spinnerCustomOptions, savedCustom, R.array.options_custom_entries, R.array.options_custom_values)
 
         androidx.appcompat.app.AlertDialog.Builder(requireContext())
             .setTitle("Organize Forecast Links")
@@ -236,20 +284,19 @@ class HomeFragment : Fragment() {
             .setPositiveButton("OK") { dialog, _ ->
                 val sortBy = getSpinnerValue(spinnerSortBy, R.array.options_sort_by_values)
                 val separation = getSpinnerValue(spinnerSeparation, R.array.options_separation_values)
-                val custom = getSpinnerValue(spinnerCustomOptions, R.array.options_custom_values)
+                val dragDropState = if (isDragDropEnabled) "enabled" else "disabled"
 
                 // Save the selected settings to SharedPreferences
                 with(sharedPreferences.edit()) {
                     putString("sortBy", sortBy)
                     putString("separation", separation)
-                    putString("custom", custom)
+                    putString("dragDrop", dragDropState)
                     apply()
                 }
 
                 // Apply the new sorting
                 val links = viewModel.forecastLinks.value ?: emptyList()
-                val sortedLinks = separateLinks(sortLinks(links.toMutableList()))
-                adapter.updateForecastLinks(sortedLinks)
+                applySortingAndUpdate(links.toMutableList())
 
                 dialog.dismiss()
             }
