@@ -1,6 +1,7 @@
 package com.example.volcanoseason3.ui.home
 
 import android.content.ActivityNotFoundException
+import android.content.SharedPreferences
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -23,9 +24,14 @@ class ForecastLinkAdapter(
 
     private var forecastLinks: MutableList<ForecastLink> = mutableListOf()
     private lateinit var itemTouchHelper: ItemTouchHelper
+    private lateinit var sharedPreferences: SharedPreferences
 
     fun setItemTouchHelper(itemTouchHelper: ItemTouchHelper) {
         this.itemTouchHelper = itemTouchHelper
+    }
+
+    fun setSharedPreferences(sharedPreferences: SharedPreferences) {
+        this.sharedPreferences = sharedPreferences
     }
 
     fun moveItem(fromPosition: Int, toPosition: Int) {
@@ -38,11 +44,32 @@ class ForecastLinkAdapter(
                 Collections.swap(forecastLinks, i, i - 1)
             }
         }
+        saveOrderToPreferences()
         notifyItemMoved(fromPosition, toPosition)
+    }
+
+    fun saveOrderToPreferences() {
+        Log.d("ForecastLinkAdapter", "saveOrderToPreferences called")
+        val editor = sharedPreferences.edit()
+        val order = forecastLinks.map { it.id }
+        editor.putString("forecast_order", order.joinToString(","))
+        editor.apply()
+    }
+
+    fun loadOrderFromPreferences() {
+        val orderString = sharedPreferences.getString("forecast_order", null)
+        orderString?.let {
+            val order = it.split(",").map { it.toInt() }
+            forecastLinks.sortBy { forecastLink -> order.indexOf(forecastLink.id) }
+        }
     }
 
     fun getItemAt(position: Int): ForecastLink {
         return forecastLinks[position]
+    }
+
+    fun getForecastLinks(): List<ForecastLink> {
+        return forecastLinks.toList()
     }
 
     fun updateForecastLinks(updatedLinks: MutableList<ForecastLink>) {
@@ -72,6 +99,7 @@ class ForecastLinkAdapter(
     }
 
     fun updateDragDropEnabled(enabled: Boolean) {
+        Log.d("ForecastLinkAdapter", "updateDragDropEnabled called with enabled: $enabled")
         dragDropEnabled = enabled
         notifyDataSetChanged()
     }

@@ -91,6 +91,9 @@ class HomeFragment : Fragment() {
         adapter = ForecastLinkAdapter(::onForecastLinkClicked, ::onForecastLinkLongPressed)
         forecastLinks.adapter = adapter
 
+        val sharedPreferences = requireContext().getSharedPreferences("HomeFragmentSettings", Context.MODE_PRIVATE)
+        adapter.setSharedPreferences(sharedPreferences)
+
 //        val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(
 //            0,
 //            ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
@@ -136,10 +139,26 @@ class HomeFragment : Fragment() {
         itemTouchHelper.attachToRecyclerView(forecastLinks)
 
         viewModel.forecastLinks.observe(viewLifecycleOwner) { links ->
-            val sortedLinks = separateLinks(sortLinks(links.toMutableList()))
-            adapter.updateForecastLinks(sortedLinks)
-            forecastLinks.scrollToPosition(0)
+//            val sortedLinks = separateLinks(sortLinks(links.toMutableList()))
+//            adapter.updateForecastLinks(sortedLinks)
+//            forecastLinks.scrollToPosition(0)
+            applySortingAndUpdate(links.toMutableList())
         }
+    }
+
+    private fun applySortingAndUpdate(links: MutableList<ForecastLink>) {
+        val sharedPreferences = requireContext().getSharedPreferences("HomeFragmentSettings", Context.MODE_PRIVATE)
+        val isDragDropEnabled = sharedPreferences.getString("dragDrop", "disabled") == "enabled"
+        val sortedLinks = if (isDragDropEnabled) {
+            adapter.loadOrderFromPreferences()
+            adapter.getForecastLinks()
+        } else {
+            separateLinks(sortLinks(links))
+        }
+
+        adapter.updateDragDropEnabled(isDragDropEnabled)
+        adapter.updateForecastLinks(sortedLinks.toMutableList())
+        forecastLinks.scrollToPosition(0)
     }
 
     fun addLink(name: String, link: String, emoji: String) {
@@ -285,9 +304,10 @@ class HomeFragment : Fragment() {
 
                 // Apply the new sorting
                 val links = viewModel.forecastLinks.value ?: emptyList()
-                val sortedLinks = separateLinks(sortLinks(links.toMutableList()))
-                adapter.updateForecastLinks(sortedLinks)
-                adapter.updateDragDropEnabled(isDragDropEnabled)
+//                val sortedLinks = separateLinks(sortLinks(links.toMutableList()))
+//                adapter.updateForecastLinks(sortedLinks)
+//                adapter.updateDragDropEnabled(isDragDropEnabled)
+                applySortingAndUpdate(links.toMutableList())
 
                 dialog.dismiss()
             }
