@@ -15,12 +15,13 @@
         <item name="android:divider">@color/list_divider_night</item>
     </style>
 
+    <!-- No ActionBar theme -->
     <style name="Theme.VolcanoSeason3.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
 
+    <!-- Overlay themes -->
     <style name="Theme.VolcanoSeason3.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
     <style name="Theme.VolcanoSeason3.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>
