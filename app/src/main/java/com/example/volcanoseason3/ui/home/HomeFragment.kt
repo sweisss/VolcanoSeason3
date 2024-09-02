@@ -134,6 +134,7 @@ class HomeFragment : Fragment() {
         itemTouchHelper.attachToRecyclerView(forecastLinks)
 
         viewModel.forecastLinks.observe(viewLifecycleOwner) { links ->
+            adapter.updateForecastLinks(links.toMutableList())
             applySortingAndUpdate(links.toMutableList())
         }
     }
@@ -141,15 +142,18 @@ class HomeFragment : Fragment() {
     private fun applySortingAndUpdate(links: MutableList<ForecastLink>) {
         val sharedPreferences = requireContext().getSharedPreferences("HomeFragmentSettings", Context.MODE_PRIVATE)
         val isDragDropEnabled = sharedPreferences.getString("dragDrop", "disabled") == "enabled"
-        val sortedLinks = if (isDragDropEnabled) {
-            adapter.loadOrderFromPreferences()
-            adapter.getForecastLinks()
-        } else {
-            separateLinks(sortLinks(links))
-        }
 
+        // Only load order if the list is not empty
+        if (links.isNotEmpty()) {
+            adapter.updateForecastLinks(links.toMutableList())
+            if (isDragDropEnabled) {
+                adapter.loadOrderFromPreferences()
+            } else {
+                val sortedLinks = separateLinks(sortLinks(links))
+                adapter.updateForecastLinks(sortedLinks.toMutableList())
+            }
+        }
         adapter.updateDragDropEnabled(isDragDropEnabled)
-        adapter.updateForecastLinks(sortedLinks.toMutableList())
         forecastLinks.scrollToPosition(0)
     }
 
