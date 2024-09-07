@@ -236,8 +236,15 @@ class HomeFragment : Fragment() {
         val links : Array<String> = resources.getStringArray(R.array.forecast_links)
         val volcanoEmoji : String = getString(R.string.emoji_volcano)
         val regionEmoji: String = getString(R.string.emoji_region)
+
+        val existingLinks = viewModel.forecastLinks.value ?: emptyList()
+        val existingLinkNames = existingLinks.map { it.name }
+
         val defaultForecastLinks = ArrayList(
             linkNames.zip(links) { name, link ->
+                // Use "NOAA" as a flag to differentiate between volcanoes and regions.
+                // The idea is that volcanoes use mountain-forecast.com and
+                // regions use NOAA.
                 if (name.contains("NOAA")) {
                     ForecastLink(name = name, url = link, emoji = regionEmoji)
                 } else {
@@ -245,8 +252,13 @@ class HomeFragment : Fragment() {
                 }
             }.toList()
         )
+
         defaultForecastLinks.forEach { link ->
-            viewModel.addForecastLink(link)
+            if (!existingLinkNames.any { it.equals(link.name, ignoreCase = true) }) {
+                viewModel.addForecastLink(link)
+            } else {
+                Log.d("HomeFragment", "Skipping duplicate default link ${link.name}")
+            }
         }
     }
 
