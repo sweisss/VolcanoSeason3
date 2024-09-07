@@ -238,6 +238,9 @@ class HomeFragment : Fragment() {
         val regionEmoji: String = getString(R.string.emoji_region)
         val defaultForecastLinks = ArrayList(
             linkNames.zip(links) { name, link ->
+                // Use "NOAA" as a flag to differentiate between volcanoes and regions.
+                // The idea is that volcanoes use mountain-forecast.com and
+                // regions use NOAA.
                 if (name.contains("NOAA")) {
                     ForecastLink(name = name, url = link, emoji = regionEmoji)
                 } else {
