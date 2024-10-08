@@ -1,4 +1,4 @@
-package com.example.volcanoseason3.data.gallery
+package com.example.volcanoseason3.data.forecastLinks
 
 class ForecastLinksRepository(
     private val dao: ForecastLinkDao

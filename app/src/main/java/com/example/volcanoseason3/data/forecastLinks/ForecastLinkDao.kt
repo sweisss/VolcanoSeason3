@@ -1,4 +1,4 @@
-package com.example.volcanoseason3.data.gallery
+package com.example.volcanoseason3.data.forecastLinks
 
 import androidx.room.Dao
 import androidx.room.Delete

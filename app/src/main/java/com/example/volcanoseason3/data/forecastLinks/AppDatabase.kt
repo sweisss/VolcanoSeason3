@@ -1,7 +1,6 @@
-package com.example.volcanoseason3.data.gallery
+package com.example.volcanoseason3.data.forecastLinks
 
 import android.content.Context
-import androidx.room.AutoMigration
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase

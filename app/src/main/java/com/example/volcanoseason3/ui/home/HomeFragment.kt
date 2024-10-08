@@ -16,19 +16,16 @@ import android.widget.EditText
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.Spinner
-import android.widget.Switch
 import androidx.appcompat.widget.SwitchCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.volcanoseason3.R
-import com.example.volcanoseason3.data.gallery.ForecastLink
+import com.example.volcanoseason3.data.forecastLinks.ForecastLink
 import com.example.volcanoseason3.databinding.FragmentHomeBinding
 import com.google.android.material.snackbar.Snackbar
-import java.time.LocalTime
 
 class HomeFragment : Fragment() {
 
