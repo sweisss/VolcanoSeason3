@@ -19,6 +19,6 @@ interface ChecklistItemDao {
     @Update
     suspend fun update(item: ChecklistItem)
 
-//    @Query("SELECT * FROM ChecklistItem")
-//    fun getAllItems(): Flow<List<ChecklistItem>>
+    @Query("SELECT * FROM ChecklistItem")
+    fun getAllItems(): Flow<List<ChecklistItem>>
 }

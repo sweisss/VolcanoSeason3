@@ -6,5 +6,5 @@ class ChecklistItemsRepository(
     suspend fun insertChecklistItem(item: ChecklistItem) = dao.insert(item)
     suspend fun deleteChecklistItem(item: ChecklistItem) = dao.delete(item)
     suspend fun updateChecklistItem(item: ChecklistItem) = dao.update(item)
-//    suspend fun getAllChecklistItems() = dao.getAllItems
+    fun getAllChecklistItems() = dao.getAllItems()
 }
