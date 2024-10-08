@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.volcanoseason3.data.forecastLinks.AppDatabase
+import com.example.volcanoseason3.data.database.AppDatabase
 import com.example.volcanoseason3.data.forecastLinks.ForecastLink
 import com.example.volcanoseason3.data.forecastLinks.ForecastLinksRepository
 import kotlinx.coroutines.launch
