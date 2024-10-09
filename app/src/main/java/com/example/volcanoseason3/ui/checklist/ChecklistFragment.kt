@@ -46,6 +46,7 @@ class ChecklistFragment : Fragment() {
         // Set up the RecyclerView and Adapter
         val recyclerView = binding.recyclerViewChecklist
         adapter = ChecklistAdapter()
+        recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         // Observe Checklist Items
