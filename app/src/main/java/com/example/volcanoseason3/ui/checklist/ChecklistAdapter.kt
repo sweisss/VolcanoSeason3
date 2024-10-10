@@ -54,7 +54,7 @@ class ChecklistAdapter : ListAdapter<ChecklistAdapter.ListItem, RecyclerView.Vie
     }
 
     inner class HeaderViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val headerText: TextView = itemView.findViewById(R.id.headerText)
+        private val headerText: TextView = itemView.findViewById(R.id.tv_header)
 
         fun bind(header: ListItem.Header) {
             headerText.text = header.category
