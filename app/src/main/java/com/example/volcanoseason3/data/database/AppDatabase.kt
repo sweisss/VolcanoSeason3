@@ -1,21 +1,25 @@
-package com.example.volcanoseason3.data.gallery
+package com.example.volcanoseason3.data.database
 
 import android.content.Context
-import androidx.room.AutoMigration
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.example.volcanoseason3.data.checklist.ChecklistItem
+import com.example.volcanoseason3.data.checklist.ChecklistItemDao
+import com.example.volcanoseason3.data.forecastLinks.ForecastLink
+import com.example.volcanoseason3.data.forecastLinks.ForecastLinkDao
 
-const val DATABASE_NAME = "forecast-links-db"
+const val DATABASE_NAME = "volcano-season-db"
 
 @Database(
-    entities = [ForecastLink::class],
-    version = 3
+    entities = [ForecastLink::class, ChecklistItem::class],
+    version = 4
 )
 abstract class AppDatabase : RoomDatabase() {
     abstract fun forecastLinkDao() : ForecastLinkDao
+    abstract fun checklistItemDao() : ChecklistItemDao
 
     companion object {
         @Volatile private var instance: AppDatabase? = null
@@ -26,7 +30,7 @@ abstract class AppDatabase : RoomDatabase() {
                 AppDatabase::class.java,
                 DATABASE_NAME
             )
-                .addMigrations(MIGRATION_2_3)
+                .fallbackToDestructiveMigration()
                 .build()
 
         fun getInstance(context: Context) : AppDatabase {
@@ -37,31 +41,18 @@ abstract class AppDatabase : RoomDatabase() {
             }
         }
 
-        // Manual Migration to version 3
-        val MIGRATION_2_3 = object : Migration(2, 3) {
+        // Migration from version 3 to 4 (currently unused with fallbackToDestructiveMigration)
+        val MIGRATION_3_4 = object : Migration(3, 4) {
             override fun migrate(db: SupportSQLiteDatabase) {
-                // Create a new table with the new schema
                 db.execSQL(
                     """
-                    CREATE TABLE new_ForecastLink (
+                    CREATE TABLE IF NOT EXISTS ChecklistItem (
                         id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
                         name TEXT NOT NULL,
-                        url TEXT NOT NULL,
-                        emoji TEXT NOT NULL DEFAULT '🌋'
+                        category TEXT NOT NULL
                     )
                     """.trimIndent()
                 )
-                // Copy the data from the old table to the new table
-                db.execSQL(
-                    """
-                    INSERT INTO new_ForecastLink (name, url, emoji)
-                    SELECT name, url, emoji FROM ForecastLink
-                    """.trimIndent()
-                )
-                // Remove the old table
-                db.execSQL("DROP TABLE ForecastLink")
-                // Rename the new table to the old table name
-                db.execSQL("ALTER TABLE new_ForecastLink RENAME TO ForecastLink")
             }
         }
     }

@@ -12,7 +12,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.volcanoseason3.R
-import com.example.volcanoseason3.data.gallery.ForecastLink
+import com.example.volcanoseason3.data.forecastLinks.ForecastLink
 import com.google.android.material.snackbar.Snackbar
 import java.util.Collections
 

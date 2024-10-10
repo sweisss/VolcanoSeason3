@@ -14,6 +14,7 @@
     <string name="action_settings_display_size">Set Display Size</string>
     <string name="action_settings_organize_list">Organize Forecast List</string>
     <string name="action_settings_defaults">Add Default Forecasts</string>
+    <string name="action_settings_default_checklist">Add Default Items</string>
 
     <string name="menu_home">Home</string>
     <string name="menu_home_links">Home - Choose a Forecast</string>
@@ -128,6 +129,159 @@
     <string-array name="options_custom_values">
         <item>@string/pref_custom_val_1</item>
         <item>@string/pref_custom_val_2</item>
+    </string-array>
+
+    <!-- Default Equipment Checklist Items -->
+    <!-- Default checklist categories -->
+    <string-array name="default_checklist_categories">
+        <item>Base Layers</item>
+        <item>Mid Layers</item>
+        <item>Shells/Outerware</item>
+        <item>Headware</item>
+        <item>Feet</item>
+        <item>Hands</item>
+        <item>Gear</item>
+        <item>Safety</item>
+        <item>Extras</item>
+        <item>Car Camping</item>
+    </string-array>
+
+    <!-- Base Layers -->
+    <string-array name="default_checklist_base_layers">
+        <item>Boxer Briefs</item>
+        <item>Compression socks</item>
+        <item>Compression leggings</item>
+        <item>Synthetic t-shirt</item>
+        <item>Long sleeve</item>
+        <item>Sun hoodie</item>
+        <item>Blue hoodie (if cold)</item>
+    </string-array>
+
+    <!-- Mid Layers -->
+    <string-array name="default_checklist_mid_layers">
+        <item>Blue Vest</item>
+        <item>Down Vest</item>
+        <item>Softshell</item>
+    </string-array>
+
+    <!-- Shells/Outerware -->
+    <string-array name="default_checklist_shells_outerwear">
+        <item>Pants</item>
+        <item>Softshell</item>
+        <item>Hiking (if hot)</item>
+        <item>Belt</item>
+        <item>GoreTex (if snow/cold)</item>
+        <item>Rain shell (if rain)</item>
+        <item>Jackets</item>
+        <item>Windbreaker</item>
+        <item>Rain shell (if rain)</item>
+        <item>GoreTex (if snow/cold)</item>
+        <item>Down Parka</item>
+    </string-array>
+
+    <!-- Headware -->
+    <string-array name="default_checklist_headware">
+        <item>Beanie</item>
+        <item>Sun hat</item>
+        <item>Buff</item>
+        <item>Helmet</item>
+        <item>Headlamp</item>
+        <item>Low-light sunglasses</item>
+        <item>Glacier sunglasses</item>
+        <item>Goggles</item>
+    </string-array>
+
+    <!-- Feet -->
+    <string-array name="default_checklist_feet">
+        <item>Ski boots</item>
+        <item>Approach shoes</item>
+        <item>Boot crampons</item>
+        <item>Yak Traks</item>
+    </string-array>
+
+    <!-- Hands -->
+    <string-array name="default_checklist_hands">
+        <item>Hydrahyde</item>
+        <item>Liners (2 pairs)</item>
+        <item>Mittens</item>
+    </string-array>
+
+    <!-- Gear -->
+    <string-array name="default_checklist_gear">
+        <item>Skis (waxed and scraped)</item>
+        <item>Poles</item>
+        <item>Skins</item>
+        <item>Skin Gloves</item>
+        <item>Ice Axe</item>
+        <item>Ski Crampons</item>
+        <item>Avy Gear</item>
+        <item>Beacon</item>
+        <item>Shovel</item>
+        <item>Probe</item>
+        <item>Ski straps</item>
+        <item>Radios</item>
+        <item>Leatherman</item>
+        <item>Carabiners</item>
+    </string-array>
+
+    <!-- Safety -->
+    <string-array name="default_checklist_safety">
+        <item>First Aid kit</item>
+        <item>Sunscreen kit</item>
+        <item>Sunscreen</item>
+        <item>Chapstick</item>
+        <item>Towel</item>
+        <item>Toiletries kit</item>
+        <item>Blue Bag/Wag Bag</item>
+        <item>Hand sanitizer</item>
+        <item>Powerbank</item>
+        <item>4x AA batteries</item>
+        <item>4x AAA batteries</item>
+        <item>Ski wallet</item>
+        <item>ID</item>
+        <item>Credit Card</item>
+        <item>Health Insurance card</item>
+        <item>Cash</item>
+        <item>Rescue knife</item>
+        <item>Firebiner</item>
+        <item>Map/Compass</item>
+        <item>Sam Splint</item>
+        <item>Food/Water</item>
+        <item>Shot Blocks</item>
+        <item>Sandwich/jerky</item>
+        <item>Extra ½ liter Hydrapack</item>
+    </string-array>
+
+    <!-- Extras -->
+    <string-array name="default_checklist_extras">
+        <item>Shorts</item>
+        <item>Binoculars</item>
+        <item>Inclinometer</item>
+        <item>Summit Beer</item>
+        <item>Food wraps</item>
+        <item>Trash bag</item>
+    </string-array>
+
+    <!-- Car Camping -->
+    <string-array name="default_checklist_car_camping">
+        <item>Car Jacket</item>
+        <item>Extra headlamp</item>
+        <item>Sleeping bag</item>
+        <item>Sleeping pad</item>
+        <item>Hammock</item>
+        <item>Tent</item>
+        <item>PJs</item>
+        <item>Pillow</item>
+        <item>Fresh Clothes</item>
+        <item>Sandals</item>
+        <item>Slippers</item>
+        <item>Cooler</item>
+        <item>Green Liquid IV</item>
+        <item>Blue Liquid IV</item>
+        <item>Beer</item>
+        <item>Water</item>
+        <item>Folding chairs</item>
+        <item>Shotski</item>
     </string-array>
 
 </resources>
