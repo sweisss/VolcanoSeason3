@@ -51,7 +51,20 @@ class ChecklistFragment : Fragment() {
 
         // Observe Checklist Items
         checklistViewModel.checklistItems.observe(viewLifecycleOwner, Observer { items ->
-            adapter.submitList(items)
+            // Group the checklist items by category and prepare the list for the adapter.
+            val groupedItems = items.groupBy { it.category }
+            val listItems = mutableListOf<ChecklistAdapter.ListItem>()
+
+            // Convert grouped items into ListItems with headers and items.
+            groupedItems.forEach { (category, checklistItems) ->
+                // Add a header for each category
+                listItems.add(ChecklistAdapter.ListItem.Header(category))
+                // Add all items under the category
+                listItems.addAll(checklistItems.map { ChecklistAdapter.ListItem.Item(it) })
+            }
+
+            // Submit the transformed list to the adapter
+            adapter.submitList(listItems)
         })
 
         val root: View = binding.root
