@@ -19,7 +19,7 @@ class ChecklistAdapter : ListAdapter<ChecklistAdapter.ListItem, RecyclerView.Vie
     }
 
     sealed class ListItem {
-        data class Header(val category: String) : ListItem()
+        data class Header(val category: String, var collapsed: Boolean = false) : ListItem()
         data class Item(val checklistItem: ChecklistItem) : ListItem()
     }
 
@@ -58,7 +58,10 @@ class ChecklistAdapter : ListAdapter<ChecklistAdapter.ListItem, RecyclerView.Vie
 
         fun bind(header: ListItem.Header) {
             headerText.text = header.category
-            // TODO: Add click listeners here to expand/collapse the headers
+            itemView.setOnClickListener {
+                header.collapsed = !header.collapsed
+                notifyDataSetChanged()
+            }
         }
     }
 
