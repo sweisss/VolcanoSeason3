@@ -59,9 +59,12 @@ class ChecklistFragment : Fragment() {
             // Convert grouped items into ListItems with headers and items.
             groupedItems.forEach { (category, checklistItems) ->
                 // Add a header for each category
-                listItems.add(ChecklistAdapter.ListItem.Header(category))
+                val header = ChecklistAdapter.ListItem.Header(category)
+                listItems.add(header)
                 // Add all items under the category
-                listItems.addAll(checklistItems.map { ChecklistAdapter.ListItem.Item(it) })
+                if (!header.collapsed) {
+                    listItems.addAll(checklistItems.map { ChecklistAdapter.ListItem.Item(it) })
+                }
             }
 
             // Submit the transformed list to the adapter
