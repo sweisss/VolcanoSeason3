@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.view.menu.MenuView.ItemView
 import androidx.recyclerview.widget.DiffUtil
@@ -55,9 +56,14 @@ class ChecklistAdapter : ListAdapter<ChecklistAdapter.ListItem, RecyclerView.Vie
 
     inner class HeaderViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val headerText: TextView = itemView.findViewById(R.id.tv_header)
+        private val expandCollapseIcon: ImageView = itemView.findViewById(R.id.iv_expand_collapse)
 
         fun bind(header: ListItem.Header) {
             headerText.text = header.category
+            expandCollapseIcon.setImageResource(
+                if (header.collapsed) R.drawable.baseline_arrow_drop_down_24
+                else R.drawable.baseline_arrow_drop_up_24
+            )
             itemView.setOnClickListener {
                 header.collapsed = !header.collapsed
                 notifyDataSetChanged()
