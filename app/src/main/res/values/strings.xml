@@ -284,4 +284,6 @@
         <item>Shotski</item>
     </string-array>
 
+    <string name="expand_collapse_icon">ExpandCollapseIcon</string>
+
 </resources>
