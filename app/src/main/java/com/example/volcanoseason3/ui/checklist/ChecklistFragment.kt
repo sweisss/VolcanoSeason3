@@ -18,7 +18,7 @@ import com.example.volcanoseason3.R
 import com.example.volcanoseason3.data.checklist.ChecklistItem
 import com.example.volcanoseason3.databinding.FragmentChecklistBinding
 
-class ChecklistFragment : Fragment() {
+class ChecklistFragment : Fragment(), ChecklistAdapter.CategoryStateListener {
     private var _binding: FragmentChecklistBinding? = null
     private val binding get() = _binding!!
     private lateinit var checklistViewModel: ChecklistViewModel
@@ -50,29 +50,50 @@ class ChecklistFragment : Fragment() {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
+        // Set the listener
+        adapter.categoryStateListener = this
+
         // Observe Checklist Items
         checklistViewModel.checklistItems.observe(viewLifecycleOwner, Observer { items ->
-            // Group the checklist items by category and prepare the list for the adapter.
             val groupedItems = items.groupBy { it.category }
             val listItems = mutableListOf<ChecklistAdapter.ListItem>()
 
-            // Convert grouped items into ListItems with headers and items.
+            Log.d("ChecklistFragment", "Grouped items: $groupedItems")
             groupedItems.forEach { (category, checklistItems) ->
-                // Add a header for each category
-                val header = ChecklistAdapter.ListItem.Header(category)
-                listItems.add(header)
-                // Add all items under the category
-                if (!header.collapsed) {
+                val isExpanded = adapter.isCategoryExpanded(category)
+                Log.d("ChecklistFragment", "Processing category: $category, isExpanded: $isExpanded")
+
+                listItems.add(ChecklistAdapter.ListItem.Header(category))
+                if (isExpanded) {
+                    Log.d("ChecklistFragment", "Adding items for category: $category")
                     listItems.addAll(checklistItems.map { ChecklistAdapter.ListItem.Item(it) })
+                } else {
+                    Log.d("ChecklistFragment", "Skipping items for collapsed category: $category")
                 }
             }
 
-            // Submit the transformed list to the adapter
+            Log.d("ChecklistFragment", "Final list items: $listItems")
             adapter.submitList(listItems)
         })
 
         val root: View = binding.root
         return root
+    }
+
+    override fun onCategoryStateChanged() {
+        Log.d("ChecklistFragment", "Category state changed, recomputing list")
+        // Recompute the list and submit to the adapter
+        val items = checklistViewModel.checklistItems.value ?: emptyList()
+        val groupedItems = items.groupBy { it.category }
+        val listItems = mutableListOf<ChecklistAdapter.ListItem>()
+
+        groupedItems.forEach { (category, checklistItems) ->
+            listItems.add(ChecklistAdapter.ListItem.Header(category))
+            if (adapter.isCategoryExpanded(category)) {
+                listItems.addAll(checklistItems.map { ChecklistAdapter.ListItem.Item(it) })
+            }
+        }
+        adapter.submitList(listItems)
     }
 
     private fun populateDefaultChecklistItems() {
