@@ -14,7 +14,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.volcanoseason3.R
 import com.example.volcanoseason3.data.checklist.ChecklistItem
 
-class ChecklistAdapter : ListAdapter<ChecklistAdapter.ListItem, RecyclerView.ViewHolder>(ChecklistDiffCallback()) {
+class ChecklistAdapter(
+    private val onCheckedChange: (Int, Boolean) -> Unit
+) : ListAdapter<ChecklistAdapter.ListItem, RecyclerView.ViewHolder>(ChecklistDiffCallback()) {
     private val expandedCategories = mutableSetOf<String>()
 
     // Callback interface
@@ -34,7 +36,6 @@ class ChecklistAdapter : ListAdapter<ChecklistAdapter.ListItem, RecyclerView.Vie
     }
 
     fun isCategoryExpanded(category: String): Boolean {
-        Log.d("ChecklistAdapter", "Checking if category is expanded: $category -> ${expandedCategories.contains(category)}")
         return expandedCategories.contains(category)
     }
 
@@ -71,7 +72,6 @@ class ChecklistAdapter : ListAdapter<ChecklistAdapter.ListItem, RecyclerView.Vie
     override fun submitList(list: MutableList<ListItem>?) {
         // Retain the expandedCategories set when submitting a new list
         val previousExpandedCategories = expandedCategories.toSet()
-        Log.d("ChecklistAdapter", "submitList called with list: $list")
 
         super.submitList(list)
 
@@ -88,7 +88,7 @@ class ChecklistAdapter : ListAdapter<ChecklistAdapter.ListItem, RecyclerView.Vie
             headerText.text = header.category
             val isExpanded = expandedCategories.contains(header.category)
 
-            Log.d("ChecklistAdapter", "Binding header: ${header.category}, isExpanded: $isExpanded")
+//            Log.d("ChecklistAdapter", "Binding header: ${header.category}, isExpanded: $isExpanded")
 
             // Update the expand/collapse icon
             expandCollapseIcon.setImageResource(
@@ -100,18 +100,13 @@ class ChecklistAdapter : ListAdapter<ChecklistAdapter.ListItem, RecyclerView.Vie
             )
 
             itemView.setOnClickListener {
-                Log.d("ChecklistAdapter", "Category clicked: ${header.category}")
-                Log.d("ChecklistAdapter", "isExpanded: ${isExpanded}")
-                Log.d("ChecklistAdapter", "Before update: $expandedCategories")
                 val currentPosition = adapterPosition
                 if (isExpanded) {
                     // Collapse the category
                     expandedCategories.remove(header.category)
-                    Log.d("ChecklistAdapter", "Category collapsed: ${header.category}")
                 } else {
                     // Expand the category
                     expandedCategories.add(header.category)
-                    Log.d("ChecklistAdapter", "Category expanded: ${header.category}")
                 }
 
                 // Notify the listener
@@ -137,14 +132,20 @@ class ChecklistAdapter : ListAdapter<ChecklistAdapter.ListItem, RecyclerView.Vie
         fun bind(item: ChecklistItem) {
             Log.d("ChecklistAdapter", "Binding checklist item: ${item.name}")
             checkBox.text = item.name
+            // Remove previous listeners to prevent unwanted triggering
+            checkBox.setOnCheckedChangeListener(null)
+            // Set the checkbox state based on the database value
             checkBox.isChecked = item.isChecked
-            // TODO: Handle the checkbox state changes and updates here
+            // Set a new listener to persist changes
+            checkBox.setOnCheckedChangeListener { _, isChecked ->
+                Log.d("ChecklistAdapter", "Checkbox state changed: ${item.name} -> $isChecked")
+                onCheckedChange(item.id, isChecked)
+            }
         }
     }
 
     class ChecklistDiffCallback : DiffUtil.ItemCallback<ListItem>() {
         override fun areItemsTheSame(oldItem: ListItem, newItem: ListItem): Boolean {
-//            return oldItem == newItem
             return when {
                 oldItem is ListItem.Header && newItem is ListItem.Header ->
                     oldItem.category == newItem.category

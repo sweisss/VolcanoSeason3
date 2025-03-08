@@ -7,4 +7,6 @@ class ChecklistItemsRepository(
     suspend fun deleteChecklistItem(item: ChecklistItem) = dao.delete(item)
     suspend fun updateChecklistItem(item: ChecklistItem) = dao.update(item)
     fun getAllChecklistItems() = dao.getAllItems()
+    suspend fun updateChecklistItemChecked(id: Int, isChecked: Boolean) =
+        dao.updateChecklistItemChecked(id, isChecked)
 }
