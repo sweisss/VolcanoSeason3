@@ -46,7 +46,9 @@ class ChecklistFragment : Fragment(), ChecklistAdapter.CategoryStateListener {
 
         // Set up the RecyclerView and Adapter
         val recyclerView = binding.recyclerViewChecklist
-        adapter = ChecklistAdapter()
+        adapter = ChecklistAdapter { id, isChecked ->
+            checklistViewModel.updateChecklistItemChecked(id, isChecked)
+        }
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 

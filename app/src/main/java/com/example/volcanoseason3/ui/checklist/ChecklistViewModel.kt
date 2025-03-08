@@ -31,4 +31,10 @@ class ChecklistViewModel(application: Application) : AndroidViewModel(applicatio
     fun deleteChecklistItem(item: ChecklistItem) {
         viewModelScope.launch { repository.deleteChecklistItem(item) }
     }
+
+    fun updateChecklistItemChecked(id: Int, isChecked: Boolean) {
+        viewModelScope.launch {
+            repository.updateChecklistItemChecked(id, isChecked)
+        }
+    }
 }

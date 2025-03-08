@@ -21,4 +21,7 @@ interface ChecklistItemDao {
 
     @Query("SELECT * FROM ChecklistItem")
     fun getAllItems(): Flow<List<ChecklistItem>>
+
+    @Query("UPDATE ChecklistItem SET isChecked = :isChecked WHERE id = :id")
+    suspend fun updateChecklistItemChecked(id: Int, isChecked: Boolean)
 }
