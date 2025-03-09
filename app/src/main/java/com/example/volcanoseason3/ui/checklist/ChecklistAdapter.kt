@@ -88,8 +88,6 @@ class ChecklistAdapter(
             headerText.text = header.category
             val isExpanded = expandedCategories.contains(header.category)
 
-//            Log.d("ChecklistAdapter", "Binding header: ${header.category}, isExpanded: $isExpanded")
-
             // Update the expand/collapse icon
             expandCollapseIcon.setImageResource(
                 if (isExpanded) {
@@ -132,14 +130,17 @@ class ChecklistAdapter(
         fun bind(item: ChecklistItem) {
             Log.d("ChecklistAdapter", "Binding checklist item: ${item.name}")
             checkBox.text = item.name
+
             // Remove previous listeners to prevent unwanted triggering
             checkBox.setOnCheckedChangeListener(null)
             // Set the checkbox state based on the database value
             checkBox.isChecked = item.isChecked
-            // Set a new listener to persist changes
+
+            // Short press: Toggle the checkbox state
+            checkBox.setOnCheckedChangeListener(null) // Prevents unnecessary callbacks
             checkBox.setOnCheckedChangeListener { _, isChecked ->
-                Log.d("ChecklistAdapter", "Checkbox state changed: ${item.name} -> $isChecked")
-                onCheckedChange(item.id, isChecked)
+                Log.d("ChecklistAdapter", "Checkbox toggled: ${item.name} -> $isChecked")
+                onCheckedChange(item.id, isChecked) // Persist change
             }
         }
     }

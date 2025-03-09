@@ -8,7 +8,14 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
+import android.widget.Button
+import android.widget.EditText
+import android.widget.Spinner
 import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.findFragment
 import androidx.lifecycle.Observer
@@ -17,6 +24,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.volcanoseason3.R
 import com.example.volcanoseason3.data.checklist.ChecklistItem
 import com.example.volcanoseason3.databinding.FragmentChecklistBinding
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 
 class ChecklistFragment : Fragment(), ChecklistAdapter.CategoryStateListener {
     private var _binding: FragmentChecklistBinding? = null
@@ -78,8 +89,53 @@ class ChecklistFragment : Fragment(), ChecklistAdapter.CategoryStateListener {
             adapter.submitList(listItems)
         })
 
+        setupSwipeToDelete()
+
         val root: View = binding.root
         return root
+    }
+
+    private fun setupSwipeToDelete() {
+        val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                return false // No drag-and-drop support
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val position = viewHolder.adapterPosition
+                val item = adapter.currentList[position] as? ChecklistAdapter.ListItem.Item
+
+                if (item != null) {
+                    showDeleteConfirmationDialog(item.checklistItem)
+                } else {
+                    adapter.notifyItemChanged(position) // Reset if swipe is invalid
+                }
+            }
+        }
+
+        val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
+        itemTouchHelper.attachToRecyclerView(binding.recyclerViewChecklist)
+    }
+
+    private fun showDeleteConfirmationDialog(item: ChecklistItem) {
+        AlertDialog.Builder(requireContext())
+            .setTitle("Delete Item")
+            .setMessage("Are you sure you want to remove '${item.name}' from the checklist?")
+            .setPositiveButton("Delete") { _, _ ->
+                checklistViewModel.deleteChecklistItem(item)
+            }
+            .setNegativeButton("Cancel") { dialog, _ ->
+                dialog.dismiss()
+                adapter.notifyDataSetChanged() // Reset swipe animation
+            }
+            .setOnDismissListener {
+                adapter.notifyDataSetChanged() // Ensure the list refreshes properly
+            }
+            .show()
     }
 
     override fun onCategoryStateChanged() {
@@ -184,12 +240,60 @@ class ChecklistFragment : Fragment(), ChecklistAdapter.CategoryStateListener {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
+            R.id.action_uncheck_all -> {
+                showUncheckAllConfirmationDialog()
+                true
+            }
+            R.id.action_add_checklist_item -> {
+                showAddChecklistItemDialog()
+                true
+            }
             R.id.action_settings_add_defaults -> {
                 populateDefaultChecklistItems()
                 true
             }
             else -> super.onContextItemSelected(item)
         }
+    }
+
+    private fun showUncheckAllConfirmationDialog() {
+        AlertDialog.Builder(requireContext())
+            .setTitle("Uncheck All Items")
+            .setMessage("Are you sure you want to uncheck all items?")
+            .setPositiveButton("Uncheck") { _, _ ->
+                checklistViewModel.uncheckAllItems()
+                Snackbar.make(binding.root, "All items unchecked", Snackbar.LENGTH_SHORT).show()
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
+    }
+
+    private fun showAddChecklistItemDialog() {
+        val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_add_checklist_item, null)
+        val etItemName = dialogView.findViewById<EditText>(R.id.edit_text_item_name)
+        val categorySpinner = dialogView.findViewById<Spinner>(R.id.spinner_category)
+
+        // Fetch categories dynamically
+        val categories = checklistViewModel.checklistItems.value?.map { it.category }?.distinct() ?: listOf()
+        val categoryAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, categories)
+        categorySpinner.adapter = categoryAdapter
+
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle("Add Checklist Item")
+            .setView(dialogView)
+            .setPositiveButton("ADD") { _, _ ->
+                val itemName = etItemName.text.toString().trim()
+                val selectedCategory = categorySpinner.selectedItem?.toString()
+
+                if (itemName.isNotEmpty() && !selectedCategory.isNullOrEmpty()) {
+                    val newItem = ChecklistItem(name = itemName, category = selectedCategory, isChecked = false)
+                    checklistViewModel.addChecklistItem(newItem)
+                } else {
+                    Toast.makeText(requireContext(), "Please enter an item name and select a category", Toast.LENGTH_SHORT).show()
+                }
+            }
+            .setNegativeButton("CANCEL", null)
+            .show()
     }
 
     override fun onDestroyView() {

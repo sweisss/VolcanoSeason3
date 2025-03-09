@@ -14,6 +14,8 @@
     <string name="action_settings_display_size">Set Display Size</string>
     <string name="action_settings_organize_list">Organize Forecast List</string>
     <string name="action_settings_defaults">Add Default Forecasts</string>
+    <string name="action_settings_uncheck_all">Uncheck All Items</string>
+    <string name="action_settings_add_checklist_item">Add Checklist Item</string>
     <string name="action_settings_default_checklist">Add Default Items</string>
 
     <string name="menu_home">Home</string>
@@ -151,8 +153,7 @@
         <item>Boxer Briefs</item>
         <item>Compression socks</item>
         <item>Compression leggings</item>
-        <item>Synthetic t-shirt</item>
-        <item>Long sleeve</item>
+        <item>Quick-dry t-shirt</item>
         <item>Sun hoodie</item>
         <item>Blue hoodie (if cold)</item>
     </string-array>
@@ -160,22 +161,23 @@
     <!-- Mid Layers -->
     <string-array name="default_checklist_mid_layers">
         <item>Blue Vest</item>
-        <item>Down Vest</item>
-        <item>Softshell</item>
+        <item>Down Vest (if cold)</item>
     </string-array>
 
     <!-- Shells/Outerware -->
     <string-array name="default_checklist_shells_outerwear">
-        <item>Pants</item>
-        <item>Softshell</item>
-        <item>Hiking (if hot)</item>
+        <!-- Pants -->
+        <item>Soft Shell pants</item>
+        <item>Hiking pants (if hot)</item>
+        <item>GoreTex pants (if snow/cold)</item>
+        <item>Rain shell pants (if rain)</item>
         <item>Belt</item>
-        <item>GoreTex (if snow/cold)</item>
-        <item>Rain shell (if rain)</item>
-        <item>Jackets</item>
+        <item>Shorts</item>
+        <!-- Jackets -->
+        <item>Soft Shell jacket</item>
         <item>Windbreaker</item>
-        <item>Rain shell (if rain)</item>
-        <item>GoreTex (if snow/cold)</item>
+        <item>Rain shell jacket (if rain)</item>
+        <item>GoreTex jacket(if snow/cold)</item>
         <item>Down Parka</item>
     </string-array>
 
@@ -191,19 +193,20 @@
         <item>Goggles</item>
     </string-array>
 
-    <!-- Feet -->
+    <!-- Footwear -->
     <string-array name="default_checklist_feet">
         <item>Ski boots</item>
         <item>Approach shoes</item>
         <item>Boot crampons</item>
         <item>Yak Traks</item>
+        <item>Gaiters</item>
     </string-array>
 
     <!-- Hands -->
     <string-array name="default_checklist_hands">
-        <item>Hydrahyde</item>
+        <item>Hydrahyde gloves</item>
         <item>Liners (2 pairs)</item>
-        <item>Mittens</item>
+        <item>GoreTex Mittens (thick if cold, thin otherwise)</item>
     </string-array>
 
     <!-- Gear -->
@@ -214,7 +217,6 @@
         <item>Skin Gloves</item>
         <item>Ice Axe</item>
         <item>Ski Crampons</item>
-        <item>Avy Gear</item>
         <item>Beacon</item>
         <item>Shovel</item>
         <item>Probe</item>
@@ -226,12 +228,9 @@
 
     <!-- Safety -->
     <string-array name="default_checklist_safety">
-        <item>First Aid kit</item>
-        <item>Sunscreen kit</item>
         <item>Sunscreen</item>
         <item>Chapstick</item>
         <item>Towel</item>
-        <item>Toiletries kit</item>
         <item>Blue Bag/Wag Bag</item>
         <item>Hand sanitizer</item>
         <item>Powerbank</item>
@@ -248,13 +247,11 @@
         <item>Sam Splint</item>
         <item>Food/Water</item>
         <item>Shot Blocks</item>
-        <item>Sandwich/jerky</item>
         <item>Extra ½ liter Hydrapack</item>
     </string-array>
 
     <!-- Extras -->
     <string-array name="default_checklist_extras">
-        <item>Shorts</item>
         <item>Binoculars</item>
         <item>Inclinometer</item>
         <item>Summit Beer</item>
