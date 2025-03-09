@@ -8,7 +8,12 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.Button
+import android.widget.EditText
+import android.widget.Spinner
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.findFragment
@@ -232,12 +237,51 @@ class ChecklistFragment : Fragment(), ChecklistAdapter.CategoryStateListener {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
+            R.id.action_add_checklist_item -> {
+                showAddChecklistItemDialog()
+                true
+            }
             R.id.action_settings_add_defaults -> {
                 populateDefaultChecklistItems()
                 true
             }
             else -> super.onContextItemSelected(item)
         }
+    }
+
+    private fun showAddChecklistItemDialog() {
+        val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_add_checklist_item, null)
+        val etItemName = dialogView.findViewById<EditText>(R.id.et_item_name)
+        val spinnerCategory = dialogView.findViewById<Spinner>(R.id.spinner_category)
+        val btnAdd = dialogView.findViewById<Button>(R.id.btn_add)
+        val btnCancel = dialogView.findViewById<Button>(R.id.btn_cancel)
+
+        // Get available categories from database
+        val categories = checklistViewModel.checklistItems.value?.map { it.category }?.distinct() ?: listOf()
+        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, categories)
+        spinnerCategory.adapter = adapter
+
+        val dialog = AlertDialog.Builder(requireContext())
+            .setView(dialogView)
+            .setCancelable(true)
+            .create()
+
+        btnAdd.setOnClickListener {
+            val itemName = etItemName.text.toString().trim()
+            val selectedCategory = spinnerCategory.selectedItem?.toString() ?: ""
+
+            if (itemName.isNotEmpty() && selectedCategory.isNotEmpty()) {
+                val newItem = ChecklistItem(name = itemName, category = selectedCategory, isChecked = false)
+                checklistViewModel.addChecklistItem(newItem)
+                dialog.dismiss()
+            } else {
+                Toast.makeText(requireContext(), "Please enter a name and select a category", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        btnCancel.setOnClickListener { dialog.dismiss() }
+
+        dialog.show()
     }
 
     override fun onDestroyView() {
