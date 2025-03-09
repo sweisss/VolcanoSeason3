@@ -24,4 +24,7 @@ interface ChecklistItemDao {
 
     @Query("UPDATE ChecklistItem SET isChecked = :isChecked WHERE id = :id")
     suspend fun updateChecklistItemChecked(id: Int, isChecked: Boolean)
+
+    @Query("UPDATE ChecklistItem SET isChecked = 0")
+    suspend fun uncheckAllItems()
 }

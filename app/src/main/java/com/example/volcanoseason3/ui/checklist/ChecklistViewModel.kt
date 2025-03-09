@@ -37,4 +37,8 @@ class ChecklistViewModel(application: Application) : AndroidViewModel(applicatio
             repository.updateChecklistItemChecked(id, isChecked)
         }
     }
+
+    fun uncheckAllItems() {
+        viewModelScope.launch { repository.uncheckAllChecklistItems() }
+    }
 }

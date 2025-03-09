@@ -27,6 +27,7 @@ import com.example.volcanoseason3.databinding.FragmentChecklistBinding
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 
 class ChecklistFragment : Fragment(), ChecklistAdapter.CategoryStateListener {
     private var _binding: FragmentChecklistBinding? = null
@@ -239,6 +240,10 @@ class ChecklistFragment : Fragment(), ChecklistAdapter.CategoryStateListener {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
+            R.id.action_uncheck_all -> {
+                showUncheckAllConfirmationDialog()
+                true
+            }
             R.id.action_add_checklist_item -> {
                 showAddChecklistItemDialog()
                 true
@@ -249,6 +254,18 @@ class ChecklistFragment : Fragment(), ChecklistAdapter.CategoryStateListener {
             }
             else -> super.onContextItemSelected(item)
         }
+    }
+
+    private fun showUncheckAllConfirmationDialog() {
+        AlertDialog.Builder(requireContext())
+            .setTitle("Uncheck All Items")
+            .setMessage("Are you sure you want to uncheck all items?")
+            .setPositiveButton("Uncheck") { _, _ ->
+                checklistViewModel.uncheckAllItems()
+                Snackbar.make(binding.root, "All items unchecked", Snackbar.LENGTH_SHORT).show()
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
     }
 
     private fun showAddChecklistItemDialog() {

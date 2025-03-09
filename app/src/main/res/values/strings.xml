@@ -14,6 +14,7 @@
     <string name="action_settings_display_size">Set Display Size</string>
     <string name="action_settings_organize_list">Organize Forecast List</string>
     <string name="action_settings_defaults">Add Default Forecasts</string>
+    <string name="action_settings_uncheck_all">Uncheck All Items</string>
     <string name="action_settings_add_checklist_item">Add Checklist Item</string>
     <string name="action_settings_default_checklist">Add Default Items</string>
 
