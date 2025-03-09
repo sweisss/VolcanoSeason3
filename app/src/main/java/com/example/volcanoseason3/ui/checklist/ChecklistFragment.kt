@@ -9,6 +9,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Spinner
@@ -25,6 +26,7 @@ import com.example.volcanoseason3.data.checklist.ChecklistItem
 import com.example.volcanoseason3.databinding.FragmentChecklistBinding
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class ChecklistFragment : Fragment(), ChecklistAdapter.CategoryStateListener {
     private var _binding: FragmentChecklistBinding? = null
@@ -251,37 +253,30 @@ class ChecklistFragment : Fragment(), ChecklistAdapter.CategoryStateListener {
 
     private fun showAddChecklistItemDialog() {
         val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_add_checklist_item, null)
-        val etItemName = dialogView.findViewById<EditText>(R.id.et_item_name)
-        val spinnerCategory = dialogView.findViewById<Spinner>(R.id.spinner_category)
-        val btnAdd = dialogView.findViewById<Button>(R.id.btn_add)
-        val btnCancel = dialogView.findViewById<Button>(R.id.btn_cancel)
+        val etItemName = dialogView.findViewById<EditText>(R.id.edit_text_item_name)
+        val categorySpinner = dialogView.findViewById<Spinner>(R.id.spinner_category)
 
-        // Get available categories from database
+        // Fetch categories dynamically
         val categories = checklistViewModel.checklistItems.value?.map { it.category }?.distinct() ?: listOf()
-        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, categories)
-        spinnerCategory.adapter = adapter
+        val categoryAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, categories)
+        categorySpinner.adapter = categoryAdapter
 
-        val dialog = AlertDialog.Builder(requireContext())
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle("Add Checklist Item")
             .setView(dialogView)
-            .setCancelable(true)
-            .create()
+            .setPositiveButton("ADD") { _, _ ->
+                val itemName = etItemName.text.toString().trim()
+                val selectedCategory = categorySpinner.selectedItem?.toString()
 
-        btnAdd.setOnClickListener {
-            val itemName = etItemName.text.toString().trim()
-            val selectedCategory = spinnerCategory.selectedItem?.toString() ?: ""
-
-            if (itemName.isNotEmpty() && selectedCategory.isNotEmpty()) {
-                val newItem = ChecklistItem(name = itemName, category = selectedCategory, isChecked = false)
-                checklistViewModel.addChecklistItem(newItem)
-                dialog.dismiss()
-            } else {
-                Toast.makeText(requireContext(), "Please enter a name and select a category", Toast.LENGTH_SHORT).show()
+                if (itemName.isNotEmpty() && !selectedCategory.isNullOrEmpty()) {
+                    val newItem = ChecklistItem(name = itemName, category = selectedCategory, isChecked = false)
+                    checklistViewModel.addChecklistItem(newItem)
+                } else {
+                    Toast.makeText(requireContext(), "Please enter an item name and select a category", Toast.LENGTH_SHORT).show()
+                }
             }
-        }
-
-        btnCancel.setOnClickListener { dialog.dismiss() }
-
-        dialog.show()
+            .setNegativeButton("CANCEL", null)
+            .show()
     }
 
     override fun onDestroyView() {
