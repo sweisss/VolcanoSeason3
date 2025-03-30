@@ -31,7 +31,11 @@ class ChecklistAdapter(
     }
 
     sealed class ListItem {
-        data class Header(val category: String) : ListItem()
+        data class Header(
+            val category: String,
+            val checkedCount: Int,
+            val totalCount: Int
+        ) : ListItem()
         data class Item(val checklistItem: ChecklistItem) : ListItem()
     }
 
@@ -82,18 +86,20 @@ class ChecklistAdapter(
 
     inner class HeaderViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val headerText: TextView = itemView.findViewById(R.id.tv_header)
+        private val countText: TextView = itemView.findViewById(R.id.tv_count)
         private val expandCollapseIcon: ImageView = itemView.findViewById(R.id.iv_expand_collapse)
 
         fun bind(header: ListItem.Header) {
             headerText.text = header.category
+            countText.text = "(${header.checkedCount} / ${header.totalCount})"
             val isExpanded = expandedCategories.contains(header.category)
 
             // Update the expand/collapse icon
             expandCollapseIcon.setImageResource(
                 if (isExpanded) {
-                    R.drawable.baseline_arrow_drop_up_24
-                } else {
                     R.drawable.baseline_arrow_drop_down_24
+                } else {
+                    R.drawable.baseline_arrow_right_24
                 }
             )
 
@@ -115,7 +121,7 @@ class ChecklistAdapter(
                     if (isExpanded) {
                         R.drawable.baseline_arrow_drop_down_24
                     } else {
-                        R.drawable.baseline_arrow_drop_up_24
+                        R.drawable.baseline_arrow_right_24
                     }
                 )
                 Log.d("ChecklistAdapter", "After update: $expandedCategories")

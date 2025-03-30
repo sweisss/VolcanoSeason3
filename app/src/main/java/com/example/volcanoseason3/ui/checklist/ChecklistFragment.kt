@@ -73,10 +73,12 @@ class ChecklistFragment : Fragment(), ChecklistAdapter.CategoryStateListener {
 
             Log.d("ChecklistFragment", "Grouped items: $groupedItems")
             groupedItems.forEach { (category, checklistItems) ->
+                val checked = checklistItems.count { it.isChecked }
+                val total = checklistItems.size
                 val isExpanded = adapter.isCategoryExpanded(category)
                 Log.d("ChecklistFragment", "Processing category: $category, isExpanded: $isExpanded")
 
-                listItems.add(ChecklistAdapter.ListItem.Header(category))
+                listItems.add(ChecklistAdapter.ListItem.Header(category, checked, total))
                 if (isExpanded) {
                     Log.d("ChecklistFragment", "Adding items for category: $category")
                     listItems.addAll(checklistItems.map { ChecklistAdapter.ListItem.Item(it) })
@@ -146,7 +148,9 @@ class ChecklistFragment : Fragment(), ChecklistAdapter.CategoryStateListener {
         val listItems = mutableListOf<ChecklistAdapter.ListItem>()
 
         groupedItems.forEach { (category, checklistItems) ->
-            listItems.add(ChecklistAdapter.ListItem.Header(category))
+            val checked = checklistItems.count { it.isChecked }
+            val total = checklistItems.size
+            listItems.add(ChecklistAdapter.ListItem.Header(category, checked, total))
             if (adapter.isCategoryExpanded(category)) {
                 listItems.addAll(checklistItems.map { ChecklistAdapter.ListItem.Item(it) })
             }
