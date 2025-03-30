@@ -28,6 +28,7 @@
         app:layout_constraintStart_toEndOf="@id/iv_expand_collapse"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/tv_count"
         android:ellipsize="end"
         android:maxLines="1" />
 
@@ -38,7 +39,7 @@
         android:textSize="14sp"
         android:textColor="?android:textColorPrimary"
         android:paddingStart="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tv_header"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />
     
