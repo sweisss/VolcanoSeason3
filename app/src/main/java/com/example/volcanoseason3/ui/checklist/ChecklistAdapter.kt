@@ -91,9 +91,9 @@ class ChecklistAdapter(
             // Update the expand/collapse icon
             expandCollapseIcon.setImageResource(
                 if (isExpanded) {
-                    R.drawable.baseline_arrow_drop_up_24
-                } else {
                     R.drawable.baseline_arrow_drop_down_24
+                } else {
+                    R.drawable.baseline_arrow_right_24
                 }
             )
 
@@ -115,7 +115,7 @@ class ChecklistAdapter(
                     if (isExpanded) {
                         R.drawable.baseline_arrow_drop_down_24
                     } else {
-                        R.drawable.baseline_arrow_drop_up_24
+                        R.drawable.baseline_arrow_right_24
                     }
                 )
                 Log.d("ChecklistAdapter", "After update: $expandedCategories")
